@@ -1,4 +1,5 @@
-model <- function(
+model <- function
+  {
 mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
   summary(mod)
   
