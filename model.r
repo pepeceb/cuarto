@@ -1,6 +1,8 @@
 model <- function
 {
-mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
+
+  TALLAS<-<-TALLAS<-arrange_samples(muestreos_tallas)
+  mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
   summary(mod)
   
   cooksd <- cooks.distance(mod)
