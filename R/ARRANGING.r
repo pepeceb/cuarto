@@ -31,7 +31,7 @@ arrange_sample <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, 
   muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)
   header(muestreos_tallas)
   
-  colSums(is.na(muestreos_tallas))
+  
   
   
   
