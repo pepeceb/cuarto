@@ -102,11 +102,7 @@ arrange_sample <- function(muestreos_tallas, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, 
       PESO_MUEST_TALLA= sum(MUEST_SP_CAT),
       PESO_DESEM_TALLA = sum (PESO_SP_CAT),
       EJEM_POND_METODOB= round((PESO_DESEM_TALLA*EJEM_MED_TALLA/PESO_MUEST_TALLA),2)
-    )  %>%
-    #<group_by( COD_ID, ESPECIE)  %>%
-    
-    #mutate(PONDERADOS=ifelse(COD_TIPO_MUE==2, EJEM_POND_METODOB, EJEM_PONDERADOS))%>%
-    
+    )  %>%    
     group_by( COD_ID, ESPECIE)  %>%
     mutate(
       EJEM_MED_MAREA=sum(EJEM_MEDIDOS),
@@ -124,56 +120,6 @@ arrange_sample <- function(muestreos_tallas, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, 
                      "PESO_SP")]%>% distinct()
   as.data.frame(head (TALLAS))
   colSums(is.na(TALLAS))
-  TALLAS2<-subset(TALLAS, EJEM_MED_MAREA>3)
-  mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS2)
-  summary(mod)
+  TALLAS<-subset(TALLAS, EJEM_MED_MAREA>3)
   
-  cooksd <- cooks.distance(mod)
-  
-  
-  
-  cooksd2<-as.data.frame(cooksd)   #aÃ±adimos numero de observacion para cruzarlas
-  
-  
-  cooksd2$ObsNumber <- 1:length(cooksd)
-  TALLAS2$ObsNumber <- 1:length(cooksd)
-  sp2<-full_join(TALLAS2, cooksd2)%>%distinct()%>%arrange(ESTRATO_RIM, PUERTO, COD_ID)%>%
-    arrange((ObsNumber))
-  
-  subset(sp2, ESTRATO_RIM=="RAPANTER_AC")%>%as.data.frame()
-  sp2<-sp2[complete.cases(sp2[c("cooksd")]),]
-  dMean <- sp2 %>%
-    group_by(ESPECIE, ESTRATO_RIM) %>%
-    summarise(MN = mean(cooksd))%>%arrange(-MN)
-  
-  dMean<-dMean[complete.cases(dMean[c("MN")]),]
-  sp3<-left_join(sp2, dMean)%>%distinct()%>%arrange(FECHA)
-  
-  
-  sp3<-sp3[complete.cases(sp3[c("MN")]),]
-  sp3<-sp3%>%group_by(ESTRATO_RIM,ESPECIE)%>%
-    mutate(
-      mareas=length(unique(COD_ID)),
-      MAX=1.2*max(cooksd),
-      t_max= max(TALLA_MEDIA_MAREA),
-      t_min= min(TALLA_MEDIA_MAREA))%>%as.data.frame()
-  
-  
-  OUTLIERS<-subset(sp3, cooksd>4*MN & EJEM_MED_MAREA>3)%>%
-    select(-c( MAX, MN)); as.data.frame(OUTLIERS)
-  getwd()
-  
-  fwrite(OUTLIERS,"OUTLIERS.txt")
-  
-  
-  
-  
-  library(ggbeeswarm)
-  sp3$PUERTO2<-ifelse(sp3$COD_TIPO_MUE %in% c(4,6), "A BORDO", sp3$PUERTO)
-  table(sp3$CALADERO_DCF)
-  table(sp3$ESTRATO_RIM)
-  sp3<-sp3%>%group_by(ESTRATO_RIM, ESPECIE)%>%mutate(
-    FILTRO=ifelse(any(cooksd>4*MN),
-                  "keep", "delete"             ))%>%
-    as.data.table()
 }
