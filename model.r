@@ -1,6 +1,6 @@
-model <- function
+model <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, BARCO, ESP_MUE, CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, SOP, TAXON, ESPECIE, MUEST_SP_CAT, MUEST_CAT, EJEM_MEDIDOS_CAT, PESO_SP_CAT, TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, PESO_MUEST_TALLA, EJEM_POND_TALLA, EJEM_MED_MAREA, TALLA_MEDIA_MAREA, ObsNumber, MN, MAX, ggbeeswarm) 
 {
-
+  
   TALLAS<-arrange_samples(muestreos_tallas)
   mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
   summary(mod)
@@ -53,4 +53,4 @@ model <- function
     FILTRO=ifelse(any(cooksd>4*MN),
                   "keep", "delete"             ))%>%
     as.data.table()
-    }
+}
