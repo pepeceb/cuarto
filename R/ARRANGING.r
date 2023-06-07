@@ -121,5 +121,8 @@ arrange_sample <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, 
   as.data.frame(head (TALLAS))
   colSums(is.na(TALLAS))
   TALLAS<-subset(TALLAS, EJEM_MED_MAREA>3)
+  head (TALLAS,10)
+ out<- TALLAS
+ return(as.data.frame(out))
   
 }
