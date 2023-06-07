@@ -1,6 +1,4 @@
-arrange_sample <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, BARCO, ESP_MUE,
-                           
-                           CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, SOP, TAXON, ESPECIE, MUEST_SP_CAT, MUEST_CAT, EJEM_MEDIDOS_CAT, PESO_SP_CAT, TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, PESO_MUEST_TALLA, EJEM_POND_TALLA, EJEM_MED_MAREA, TALLA_MEDIA_MAREA, ObsNumber, MN, MAX, ggbeeswarm) {
+arrange_sample <- function(x, y) {
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
