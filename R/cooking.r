@@ -1,5 +1,20 @@
 cooking <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, MN, FECHA) {
-temp_plot  <-ggplot(data =AC,
+
+     colp <- c("A CORUNA" = "steelblue", "SANTA EUGENIA DE RIBEIRA" = "blue", "CILLERO"="darkgreen",
+            "VIGO" = "orange", "AVILES-GIJON" = "darkblue","AVILES"="red", "GIJON"="#00BFC4",
+            "SANTONA" = "#7CAE00", "CEDEIRA"="forestgreen", "FINISTERRE"= "darkgoldenrod2",
+            "LUARCA" = "chartreuse4", "MUROS"= "#619CFF", "CELEIRO"="darkgreen", 
+            "BURELA" ="yellowgreen","SUANCES"="deeppink3",
+            "MARIN"= "mediumorchid", "SAN VICENTE DE LA BARQUERA"= "tomato",
+            "ISLA CRISTINA" ="steelblue", "LLANES"= "darksalmon",
+            "PUNTA UMBRIA" = "slateblue3", "BARBATE"= "red3","SANTANDER"= "red",
+            "PUERTO DE SANTA MARIA"="darkorchid2","ROTA"="orange",
+            "CADIZ"="Chartreuse2", "TARIFA"= "coral1", "AYAMONTE"= "coral3",
+            "SANLUCAR DE BARRAMEDA"= "darksalmon","PUNTA DEL MORAL"= "red",
+            "CASTLETOWN BERE" = "deeppink3", "PUERTO DE LA VEGA"="black", "MUXIA"="tomato2")    
+         
+         
+         temp_plot  <-ggplot(data =AC,
          mapping = aes(y = cooksd, x=TALLA_MEDIA_MAREA, col=factor(PUERTO2)))  +
     geom_quasirandom(aes(colour = PUERTO2, size=2,x=TALLA_MEDIA_MAREA, y=cooksd  ),
                      method = "smiley")  +
