@@ -76,7 +76,7 @@ arrange_sample <- function(x, y) {
   pesos1<-distinct(pesos1)
   colSums(is.na(pesos1))
   header(pesos1)
-   subset(pesos1, COD_ID== "202200022")%>%as.data.frame()
+  subset(pesos1, COD_ID== "202200022")%>%as.data.frame()
   tallas1<-distinct(tallas[,c("CALADERO_DCF",   "COD_ID","FECHA", "QUARTER",  "ESTRATO_RIM","PUERTO", "COD_TIPO_MUE",
                               "ESP_MUE","CATEGORIA", "ESP_CAT","TALLA", "EJEM_MEDIDOS")])
   header(tallas1)
@@ -116,14 +116,14 @@ arrange_sample <- function(x, y) {
   subset(pesos, COD_ID=="202201364")%>%as.data.frame()
   tail (as.data.frame(tallas2))
   TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
-                     "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
-                     "PESO_SP")]%>% distinct()
-  as.data.frame(head (TALLAS))
-  colSums(is.na(TALLAS))
+                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
+                      "PESO_SP")]%>% distinct()%>%as.data.frame()
+  
+
   TALLAS<-subset(TALLAS, EJEM_MED_MAREA>3)
   head (TALLAS,10)
-
- return(TALLAS)
-  output (TALLAS)
+  
+  return(TALLAS)
+ output(TALLAS)
   
 }
