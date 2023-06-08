@@ -1,4 +1,4 @@
-model <- function(x, y) {
+modelando <- function(x, y) {
 
   
  # TALLAS<-arrange_sample(muestreos_tallas)
