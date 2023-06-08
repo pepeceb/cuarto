@@ -1,8 +1,4 @@
-  muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, 
-                       QUARTER, BARCO, ESP_MUE, CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, SOP, 
-                       TAXON, ESPECIE, MUEST_SP_CAT, MUEST_CAT, EJEM_MEDIDOS_CAT, PESO_SP_CAT,
-                       TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, PESO_MUEST_TALLA,
-                       EJEM_POND_TALLA, EJEM_MED_MAREA, TALLA_MEDIA_MAREA, ObsNumber, MN, MAX) {
+  muesting <- function(muestreos_tallas) {
     
 library(stringi)    
     
@@ -123,5 +119,9 @@ library(stringi)
   TALLAS2<-subset(TALLAS, EJEM_MED_MAREA>3)
     
     
+   {
+    warning("Your transformed catchdata does not contain any columns. Are you sure, your original data included more than one stock and more than one vessel?")
+  }
+  return(TALLAS)
+} 
     
-    }
