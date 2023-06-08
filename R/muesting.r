@@ -1,7 +1,7 @@
   muesting <- function(data){
     
 library(stringi)    
-    
+    data<-muestreos_tallas
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
