@@ -106,7 +106,7 @@ muesting <- function(x, y) {
   TALLAS<-subset(TALLAS, EJEM_MED_MAREA>3)
   head (TALLAS,10)
   
-  return(TALLAS)
+  return(as.data.frame(TALLAS))
  output(TALLAS)
   
 }
