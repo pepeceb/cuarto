@@ -107,8 +107,7 @@ muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTE
   TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
                       "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                       "PESO_SP")]%>%distinct()%>%as.data.frame()
-  
-return(data.frame(TALLAS))
+muesting()
   
   
  
