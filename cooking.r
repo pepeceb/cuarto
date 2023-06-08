@@ -31,6 +31,7 @@ cooking <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, MN,
                                        size = 14)) +
     scale_colour_manual(values=colp,limits = force)   +
     theme(legend.text = element_text(colour="blue", size = 10, face = "bold"))+
+     guides(fill=guide_legend(title=NULL))+
     theme(axis.text=element_text(angle=0, size=12, face="bold")) +
     
     geom_blank(aes(x = 0.99*t_min)) + 
