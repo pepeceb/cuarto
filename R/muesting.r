@@ -66,5 +66,5 @@
                           "FECHA", "QUARTER", "ESTRATO_RIM", "PUERTO", "BARCO", 
                           "TAXON", "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA", 
                           "PESO_SP")] %>% distinct() %>% as.data.table()
-    return(TALLAS)
+    return(tallas2)
   }
