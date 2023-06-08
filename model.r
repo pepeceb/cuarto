@@ -3,7 +3,7 @@ model <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, 
                   PESO_SP_CAT, TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, PESO_MUEST_TALLA,
                   EJEM_POND_TALLA, EJEM_MED_MAREA, TALLA_MEDIA_MAREA, ObsNumber, MN, MAX, ggbeeswarm) {
   
-  TALLAS<-arrange_sample(muestreos_tallas)
+  #TALLAS<-arrange_sample(muestreos_tallas)
   mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
   summary(mod)
   
