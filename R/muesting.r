@@ -1,4 +1,4 @@
-  muesting <- function(muestreos_tallas, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, BARCO, ESP_MUE, CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, 
+  muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, BARCO, ESP_MUE, CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, 
                        SOP, TAXON,
                        ESPECIE, MUEST_SP_CAT, MUEST_CAT, EJEM_MEDIDOS_CAT, PESO_SP_CAT, TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, 
                        PESO_MUEST_TALLA, EJEM_POND_TALLA) {
@@ -114,16 +114,16 @@ library(stringi)
   
   subset(pesos, COD_ID=="202201364")%>%as.data.frame()
   tail (as.data.frame(tallas2))
-  TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
+  x<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% distinct()
-  as.data.frame(head (TALLAS))
+  
  
     
     
    {
     warning("Your transformed catchdata does not contain any columns. Are you sure, your original data included more than one stock and more than one vessel?")
   }
-  return(TALLAS)
+  return(x)
 } 
     
