@@ -5,7 +5,7 @@ muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTE
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
-  muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
+
   
   
 
@@ -108,7 +108,8 @@ muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTE
                       "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                       "PESO_SP")]%>%distinct()%>%as.data.frame()
   
-
+return(TALLAS)
+  
   
  
 
