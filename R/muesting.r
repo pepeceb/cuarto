@@ -106,7 +106,7 @@ muesting <- function(x) {
   
 
  
-
+return (tallas2)
 
 }
 
