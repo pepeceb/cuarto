@@ -107,6 +107,6 @@ muesting <- function(x, y) {
   head (TALLAS,10)
   
   return(as.data.frame(TALLAS))
- output(TALLAS)
+# output(TALLAS)
   
 }
