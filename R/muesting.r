@@ -106,7 +106,7 @@ muesting <- function(x) {
                       "PESO_SP")]%>%unique()%>%as.data.table()
 
   
-  
+  TALLAS
  
 
   
