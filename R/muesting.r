@@ -1,4 +1,4 @@
-  muesting <- function(muestreos_tallas){
+  muesting <- function(data){
     
 library(stringi)    
     
