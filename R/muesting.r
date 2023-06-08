@@ -1,4 +1,4 @@
-  muesting <- function(x) {
+  muesting <- function(muestreos_tallas){
     
 library(stringi)    
     
@@ -115,8 +115,7 @@ library(stringi)
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% distinct()
   as.data.frame(head (TALLAS))
-  colSums(is.na(TALLAS))
-  TALLAS2<-subset(TALLAS, EJEM_MED_MAREA>3)
+ 
     
     
    {
