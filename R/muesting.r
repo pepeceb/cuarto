@@ -96,9 +96,7 @@ muesting <- function(x) {
     
     group_by(COD_ID, ESPECIE, CATEGORIA)%>%
     mutate(TALLA_MEDIA_CAT=round (weighted.mean(TALLA, EJEM_POND_CAT),2))
-  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
- 
-  
+ # tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
 
 
   TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
@@ -109,7 +107,7 @@ muesting <- function(x) {
 
  
 
- print(muesting) 
+ print(TALLAS) 
 }
 
 
