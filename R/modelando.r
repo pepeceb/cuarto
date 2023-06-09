@@ -5,7 +5,7 @@ modelando <- function(x, y) {
 
   
  # TALLAS<-arrange_sample(muestreos_tallas)
-  mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
+  mod <- lm(TALLA_MEDIA_MAREA~ESPECIE+ESTRATO_RIM, data=TALLAS)
   summary(mod)
   
   cooksd <- cooks.distance(mod)
