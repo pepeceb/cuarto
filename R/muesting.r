@@ -99,7 +99,7 @@ library(stringi)
     
     group_by(COD_ID, ESPECIE, CATEGORIA)%>%
     mutate(TALLA_MEDIA_CAT=round (weighted.mean(TALLA, EJEM_POND_CAT),2))
-  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]}
+  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
  
   
   subset(pesos, COD_ID=="202201364")%>%as.data.frame()
