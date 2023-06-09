@@ -5,8 +5,8 @@ modelando <- function(x, y) {
 
   
  # TALLAS<-arrange_sample(muestreos_tallas)
-  mod <- lm(TALLA_MEDIA_MAREA~ESPECIE*ESTRATO_RIM, data=TALLAS)
-  summary(mod)
+  mod <- lm(TALLA_MEDIA_MAREA~ESTRATO_RIM*ESPECIE, data=TALLAS)
+#  summary(mod)
   
   cooksd <- cooks.distance(mod)
   
@@ -41,7 +41,7 @@ modelando <- function(x, y) {
   
   OUTLIERS<-subset(sp3, cooksd>4*MN & EJEM_MED_MAREA>3)%>%
     select(-c( MAX, MN)); as.data.frame(OUTLIERS)
-  getwd()
+  
   
   fwrite(OUTLIERS,"OUTLIERS.txt")
   
