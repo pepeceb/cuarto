@@ -18,7 +18,7 @@ library(stringi)
   muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)
   header(muestreos_tallas)
   
-  {
+  
   
   
   tallas<-muestreos_tallas[,c("CALADERO_DCF",   "COD_ID", "FECHA","QUARTER","ESTRATO_RIM", "PUERTO","COD_TIPO_MUE","BARCO","ESP_MUE", "CATEGORIA",
@@ -76,7 +76,7 @@ library(stringi)
   
   head (as.data.frame(pesos1),3)
   tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
-    }
+    
   
   
   tallas2<-full_join(pesos1, tallas1)%>%distinct()  %>%
@@ -114,5 +114,5 @@ library(stringi)
    {
     warning("Your transformed catchdata does not contain any columns. Are you sure, your original data included more than one stock and more than one vessel?")
   }
-  return(TALLAS)
+
 } 
