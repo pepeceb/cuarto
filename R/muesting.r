@@ -5,9 +5,7 @@ library(stringi)
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
-  header<-function(x, y) {
-    as.data.frame(head(x,2))
-  }
+  
   muestreos_tallas<-data.table(muestreos_tallas)
   header (muestreos_tallas)
   muestreos_tallas<-na.omit(muestreos_tallas, cols=c("EJEM_MEDIDOS", "SOP"))
@@ -31,91 +29,10 @@ library(stringi)
 
 
 
-  pesos<-tallas%>%
-    group_by(COD_TIPO_MUE,
-             COD_ID, ESTRATO_RIM, PUERTO,FECHA,QUARTER,
-             BARCO, TAXON=ESP_MUE,CATEGORIA, ESPECIE=ESP_CAT,P_VIVO) %>%
-    summarise(
-      EJEM_MEDIDOS_CAT=sum(EJEM_MEDIDOS),
-      MUEST_SP_CAT= sum(SOP)
-    )  %>%
-    group_by(COD_ID, TAXON,ESPECIE) %>%
-    mutate(
-      MUEST_SP=sum(MUEST_SP_CAT)# este es el peso muestreado de la especie esa marea, de todas las categor?as
-    )  %>%
-    group_by(COD_ID, TAXON, CATEGORIA) %>%
-    mutate(
-      MUEST_CAT=sum(MUEST_SP_CAT)
-    ) %>%
-    group_by(COD_ID, ESPECIE) %>%
-    mutate(
-      PESO_SP_CAT=round((P_VIVO*MUEST_SP_CAT)/MUEST_CAT,2)
-    )  %>%
-    group_by(COD_TIPO_MUE,COD_ID,  ESTRATO_RIM, PUERTO,FECHA,
-             BARCO , TAXON,ESPECIE)%>%
-    mutate(
-      EJEM_MEDIDOS_SP= sum(EJEM_MEDIDOS_CAT),#EJEMPLARES MEDIDOS DE LA SP EN LA MAREA
-      PESO_SP=sum(PESO_SP_CAT), ##ESTE PESO DE LA ESPECIE EN LA MAREA
-      PESO_SIRENO= sum(P_VIVO)) #PESO MAL PONDERADO DE SIRENO
-  pesos<-pesos[complete.cases(pesos[c("PESO_SP")]),]
+
     
-    
-  
-  pesos1<-pesos[,c("COD_TIPO_MUE","COD_ID", "FECHA","QUARTER", "ESTRATO_RIM","PUERTO","BARCO",
-                   "TAXON", "CATEGORIA", "ESPECIE",
-                   "MUEST_SP_CAT", "PESO_SP_CAT", "MUEST_SP", "PESO_SP", "PESO_SIRENO")]
-  pesos1<-distinct(pesos1)
-  colSums(is.na(pesos1))
-  header(pesos1)
-   subset(pesos1, COD_ID== "202200022")%>%as.data.frame()
-  tallas1<-distinct(tallas[,c("CALADERO_DCF",   "COD_ID","FECHA", "QUARTER",  "ESTRATO_RIM","PUERTO", "COD_TIPO_MUE",
-                              "ESP_MUE","CATEGORIA", "ESP_CAT","TALLA", "EJEM_MEDIDOS")])
-  header(tallas1)
-  colnames(tallas1)[colnames(tallas1) %in% c("ESP_MUE", "ESP_CAT")] <- c("TAXON", "ESPECIE")
-  
-  head (as.data.frame(tallas1),3)
-  
-  head (as.data.frame(pesos1),3)
-  tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
-    }
-  
-  {
-  tallas2<-full_join(pesos1, tallas1)%>%distinct()  %>%
-    group_by(COD_ID,TALLA, ESPECIE)%>%
-    mutate(
-      EJEM_POND_CAT= round((PESO_SP_CAT*EJEM_MEDIDOS/MUEST_SP_CAT),2)
-      
-    )  %>% group_by(COD_ID,TALLA, ESPECIE)%>%
-    mutate(
-      EJEM_MED_TALLA=sum(EJEM_MEDIDOS),
-      EJEM_POND_TALLA=sum(EJEM_POND_CAT),
-      PESO_MUEST_TALLA= sum(MUEST_SP_CAT),
-      PESO_DESEM_TALLA = sum (PESO_SP_CAT),
-      EJEM_POND_METODOB= round((PESO_DESEM_TALLA*EJEM_MED_TALLA/PESO_MUEST_TALLA),2)
-    )  %>%
-    group_by( COD_ID, ESPECIE)  %>%
-    mutate(
-      EJEM_MED_MAREA=sum(EJEM_MEDIDOS),
-      TALLA_MEDIA_MAREA= round (weighted.mean(TALLA, EJEM_POND_TALLA),2))%>%
-    
-    group_by(COD_ID, ESPECIE, CATEGORIA)%>%
-    mutate(TALLA_MEDIA_CAT=round (weighted.mean(TALLA, EJEM_POND_CAT),2))
-  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]}
- 
-  
-  subset(pesos, COD_ID=="202201364")%>%as.data.frame()
-  tail (as.data.frame(tallas2))
-  TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
-                     "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
-                     "PESO_SP")]%>% distinct()
-  
- 
-    
-    
-   {
-    warning("Your transformed catchdata does not contain any columns. Are you sure, your original data included more than one stock and more than one vessel?")
+header<-function(x, y) {
+    as.data.frame(head(x,2))
   }
-  return(TALLAS)
-} 
-    
-return(TALLAS)
+
+header (tallas)
