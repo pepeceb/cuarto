@@ -120,6 +120,6 @@ library(stringi)
    {
     warning("Your transformed catchdata does not contain any columns. Are you sure, your original data included more than one stock and more than one vessel?")
   }
-  return(x)
+  return(TALLAS)
 } 
     
