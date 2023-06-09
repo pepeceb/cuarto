@@ -4,7 +4,7 @@
                        PESO_MUEST_TALLA, EJEM_POND_TALLA) {
     
 library(stringi)    
- 
+ data=muestreos_tallas
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
@@ -26,17 +26,17 @@ library(stringi)
   muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)
   header(muestreos_tallas)
   
-  colSums(is.na(muestreos_tallas))
-  
+  {
   
   
   tallas<-muestreos_tallas[,c("CALADERO_DCF",   "COD_ID", "FECHA","QUARTER","ESTRATO_RIM", "PUERTO","COD_TIPO_MUE","BARCO","ESP_MUE", "CATEGORIA",
                               "ESP_CAT","P_MUE_VIVO","P_VIVO", "TALLA", "EJEM_MEDIDOS", "SOP")]%>%as.data.frame()%>%
     distinct()
   tallas<-tallas[complete.cases(tallas[c("EJEM_MEDIDOS", "P_MUE_VIVO")]),]
-  header (tallas)
-  substring2(tallas$PUERTO, "CILLERO") <- "CELEIRO"
-  colSums(is.na(tallas))
+  
+
+
+
   pesos<-tallas%>%
     group_by(COD_TIPO_MUE,
              COD_ID, ESTRATO_RIM, PUERTO,FECHA,QUARTER,
@@ -64,7 +64,9 @@ library(stringi)
       PESO_SP=sum(PESO_SP_CAT), ##ESTE PESO DE LA ESPECIE EN LA MAREA
       PESO_SIRENO= sum(P_VIVO)) #PESO MAL PONDERADO DE SIRENO
   pesos<-pesos[complete.cases(pesos[c("PESO_SP")]),]
-  header (pesos)
+    
+    }
+  
   pesos1<-pesos[,c("COD_TIPO_MUE","COD_ID", "FECHA","QUARTER", "ESTRATO_RIM","PUERTO","BARCO",
                    "TAXON", "CATEGORIA", "ESPECIE",
                    "MUEST_SP_CAT", "PESO_SP_CAT", "MUEST_SP", "PESO_SP", "PESO_SIRENO")]
@@ -82,9 +84,7 @@ library(stringi)
   head (as.data.frame(pesos1),3)
   tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
   
-  colSums(is.na(tallas1))
-  length(unique(tallas1$COD_ID))
-  length(unique(pesos1$COD_ID))
+  {
   tallas2<-full_join(pesos1, tallas1)%>%distinct()  %>%
     group_by(COD_ID,TALLA, ESPECIE)%>%
     mutate(
@@ -98,10 +98,6 @@ library(stringi)
       PESO_DESEM_TALLA = sum (PESO_SP_CAT),
       EJEM_POND_METODOB= round((PESO_DESEM_TALLA*EJEM_MED_TALLA/PESO_MUEST_TALLA),2)
     )  %>%
-    #<group_by( COD_ID, ESPECIE)  %>%
-    
-    #mutate(PONDERADOS=ifelse(COD_TIPO_MUE==2, EJEM_POND_METODOB, EJEM_PONDERADOS))%>%
-    
     group_by( COD_ID, ESPECIE)  %>%
     mutate(
       EJEM_MED_MAREA=sum(EJEM_MEDIDOS),
@@ -109,12 +105,12 @@ library(stringi)
     
     group_by(COD_ID, ESPECIE, CATEGORIA)%>%
     mutate(TALLA_MEDIA_CAT=round (weighted.mean(TALLA, EJEM_POND_CAT),2))
-  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
-  colSums(is.na(tallas2))
+  tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]}
+ 
   
   subset(pesos, COD_ID=="202201364")%>%as.data.frame()
   tail (as.data.frame(tallas2))
-  x<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
+  TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% distinct()
   
