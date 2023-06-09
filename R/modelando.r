@@ -55,6 +55,6 @@ modelando <- function(x, y) {
   sp3<-sp3%>%group_by(ESTRATO_RIM, ESPECIE)%>%mutate(
     FILTRO=ifelse(any(cooksd>4*MN),
                   "keep", "delete"             ))%>%
-  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>&
+  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>%
     as.data.table()
 }
