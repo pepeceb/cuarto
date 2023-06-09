@@ -1,14 +1,8 @@
-  muesting <- function(x, COD_TIPO_MUE, COD_ID, ESTRATO_RIM, PUERTO, FECHA, QUARTER, BARCO, ESP_MUE, CATEGORIA, ESP_CAT, P_VIVO, EJEM_MEDIDOS, 
-                       SOP, TAXON,
-                       ESPECIE, MUEST_SP_CAT, MUEST_CAT, EJEM_MEDIDOS_CAT, PESO_SP_CAT, TALLA, EJEM_POND_CAT, PESO_DESEM_TALLA, EJEM_MED_TALLA, 
-                       PESO_MUEST_TALLA, EJEM_POND_TALLA) {
+  muesting <- function(x, y) {
     
 library(stringi)    
- data=muestreos_tallas
+ #data=muestreos_tallas
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
-  
-  
-
   
   
   header<-function(x, y) {
@@ -65,7 +59,7 @@ library(stringi)
       PESO_SIRENO= sum(P_VIVO)) #PESO MAL PONDERADO DE SIRENO
   pesos<-pesos[complete.cases(pesos[c("PESO_SP")]),]
     
-    }
+    
   
   pesos1<-pesos[,c("COD_TIPO_MUE","COD_ID", "FECHA","QUARTER", "ESTRATO_RIM","PUERTO","BARCO",
                    "TAXON", "CATEGORIA", "ESPECIE",
@@ -83,6 +77,7 @@ library(stringi)
   
   head (as.data.frame(pesos1),3)
   tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
+    }
   
   {
   tallas2<-full_join(pesos1, tallas1)%>%distinct()  %>%
