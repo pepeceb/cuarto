@@ -1,4 +1,4 @@
-  muesting <- function(x, y) {
+  muesting <- function(muestreos_tallas) {
     
 library(stringi)    
  #data=muestreos_tallas
@@ -118,3 +118,4 @@ library(stringi)
   return(TALLAS)
 } 
     
+return(TALLAS)
