@@ -103,5 +103,5 @@ library(stringi)
 
   
 write.csv(tallas, "tallas.csv", row.names = FALSE)
-    return (tallas)
+  
 } 
