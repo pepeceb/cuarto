@@ -99,12 +99,10 @@ library(stringi)
   tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
  
   
-  TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
+  tallas2<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% distinct()
-    {return (TALLAS)
- }
-    
-  
 
+  
+return (y)
 } 
