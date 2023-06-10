@@ -64,9 +64,8 @@ library(stringi)
                    "TAXON", "CATEGORIA", "ESPECIE",
                    "MUEST_SP_CAT", "PESO_SP_CAT", "MUEST_SP", "PESO_SP", "PESO_SIRENO")]
   pesos1<-distinct(pesos1)
-  colSums(is.na(pesos1))
-  header(pesos1)
-   subset(pesos1, COD_ID== "202200022")%>%as.data.frame()
+
+
   tallas1<-distinct(tallas[,c("CALADERO_DCF",   "COD_ID","FECHA", "QUARTER",  "ESTRATO_RIM","PUERTO", "COD_TIPO_MUE",
                               "ESP_MUE","CATEGORIA", "ESP_CAT","TALLA", "EJEM_MEDIDOS")])
   
@@ -100,8 +99,6 @@ library(stringi)
   tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
  
   
-  subset(pesos, COD_ID=="202201364")%>%as.data.frame()
-  tail (as.data.frame(tallas2))
   TALLAS<-tallas2[,c( "CALADERO_DCF",   "COD_TIPO_MUE", "COD_ID","FECHA", "QUARTER", "ESTRATO_RIM","PUERTO","BARCO", "TAXON",
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% distinct()
