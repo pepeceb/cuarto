@@ -15,9 +15,7 @@ library(stringi)
   muestreos_tallas$FECHA_MUE<-str_replace_all(muestreos_tallas$FECHA_MUE, "AGO", "AUG")
   muestreos_tallas$FECHA_MUE<-str_replace_all(muestreos_tallas$FECHA_MUE, "DIC", "DEC")
   muestreos_tallas$FECHA<-dmy(muestreos_tallas$FECHA_MUE)
-  muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)
-
-  
+  muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)  
   
   
   
@@ -37,19 +35,19 @@ library(stringi)
     summarise(
       EJEM_MEDIDOS_CAT=sum(EJEM_MEDIDOS),
       MUEST_SP_CAT= sum(SOP),.groups = 'drop'
-    )  %>%
+    )  %>% ungroup()%>%
     group_by(COD_ID, TAXON,ESPECIE) %>%
     mutate(
       MUEST_SP=sum(MUEST_SP_CAT)# este es el peso muestreado de la especie esa marea, de todas las categor?as
-    )  %>%
+    )  %>%ungroup()%>%
     group_by(COD_ID, TAXON, CATEGORIA) %>%
     mutate(
       MUEST_CAT=sum(MUEST_SP_CAT)
-    ) %>%
+    ) %>%ungroup()%>%
     group_by(COD_ID, ESPECIE) %>%
     mutate(
       PESO_SP_CAT=round((P_VIVO*MUEST_SP_CAT)/MUEST_CAT,2)
-    )  %>%
+    )  %>%ungroup()%>%
     group_by(COD_TIPO_MUE,COD_ID,  ESTRATO_RIM, PUERTO,FECHA,
              BARCO , TAXON,ESPECIE)%>%
     mutate(
@@ -81,19 +79,19 @@ library(stringi)
     mutate(
       EJEM_POND_CAT= round((PESO_SP_CAT*EJEM_MEDIDOS/MUEST_SP_CAT),2)
       
-    )  %>% group_by(COD_ID,TALLA, ESPECIE)%>%
+    )  %>% ungroup()%>%group_by(COD_ID,TALLA, ESPECIE)%>%
     mutate(
       EJEM_MED_TALLA=sum(EJEM_MEDIDOS),
       EJEM_POND_TALLA=sum(EJEM_POND_CAT),
       PESO_MUEST_TALLA= sum(MUEST_SP_CAT),
       PESO_DESEM_TALLA = sum (PESO_SP_CAT),
       EJEM_POND_METODOB= round((PESO_DESEM_TALLA*EJEM_MED_TALLA/PESO_MUEST_TALLA),2)
-    )  %>%
+    )  %>%ungroup()%>%
     group_by( COD_ID, ESPECIE)  %>%
     mutate(
       EJEM_MED_MAREA=sum(EJEM_MEDIDOS),
       TALLA_MEDIA_MAREA= round (weighted.mean(TALLA, EJEM_POND_TALLA),2))%>%
-    
+    ungroup()%>%
     group_by(COD_ID, ESPECIE, CATEGORIA)%>%
     mutate(TALLA_MEDIA_CAT=round (weighted.mean(TALLA, EJEM_POND_CAT),2))
   tallas2<-tallas2[complete.cases(tallas2[c("PESO_SP")]),]
@@ -104,6 +102,6 @@ library(stringi)
                      "PESO_SP")]%>% distinct()
 
   
-write.csv(TALLAS, "TALLAS.csv", row.names = FALSE)
-    return (TALLAS)
+write.csv(tallas2, "tallas2.csv", row.names = FALSE)
+    return (tallas2)
 } 
