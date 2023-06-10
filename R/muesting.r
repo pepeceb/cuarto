@@ -1,7 +1,7 @@
-  muesting <- function(x,y) {
+  muesting <- function(data) {
 
 library(stringi)    
- #data=muestreos_tallas
+ data=muestreos_tallas
   muestreos_tallas$PUERTO<-toupper(stri_trans_general(muestreos_tallas$PUERTO,"Latin-ASCII"))
   
   
@@ -103,5 +103,5 @@ library(stringi)
 
   
 write.csv(pesos, "pesos.csv", row.names = FALSE)
-  
+  return (TALLAS)
 } 
