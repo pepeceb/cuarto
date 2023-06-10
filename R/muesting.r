@@ -102,6 +102,6 @@ library(stringi)
                      "PESO_SP")]%>% distinct()
 
   
-write.csv(tallas, "tallas.csv", row.names = FALSE)
+write.csv(pesos, "pesos.csv", row.names = FALSE)
   
 } 
