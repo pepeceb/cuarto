@@ -7,7 +7,7 @@ library(stringi)
   
   
   muestreos_tallas<-data.table(muestreos_tallas)
-  header (muestreos_tallas)
+  head (muestreos_tallas)
   muestreos_tallas<-na.omit(muestreos_tallas, cols=c("EJEM_MEDIDOS", "SOP"))
   muestreos_tallas$FECHA_MUE<-as.character (muestreos_tallas$FECHA_MUE)
   muestreos_tallas$FECHA_MUE<-str_replace_all(muestreos_tallas$FECHA_MUE, "ENE", "JAN")
@@ -16,7 +16,7 @@ library(stringi)
   muestreos_tallas$FECHA_MUE<-str_replace_all(muestreos_tallas$FECHA_MUE, "DIC", "DEC")
   muestreos_tallas$FECHA<-dmy(muestreos_tallas$FECHA_MUE)
   muestreos_tallas$QUARTER<-quarter(muestreos_tallas$FECHA)
-  header(muestreos_tallas)
+
   
   
   
@@ -69,12 +69,10 @@ library(stringi)
    subset(pesos1, COD_ID== "202200022")%>%as.data.frame()
   tallas1<-distinct(tallas[,c("CALADERO_DCF",   "COD_ID","FECHA", "QUARTER",  "ESTRATO_RIM","PUERTO", "COD_TIPO_MUE",
                               "ESP_MUE","CATEGORIA", "ESP_CAT","TALLA", "EJEM_MEDIDOS")])
-  header(tallas1)
+  
   colnames(tallas1)[colnames(tallas1) %in% c("ESP_MUE", "ESP_CAT")] <- c("TAXON", "ESPECIE")
+
   
-  head (as.data.frame(tallas1),3)
-  
-  head (as.data.frame(pesos1),3)
   tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
     
   
