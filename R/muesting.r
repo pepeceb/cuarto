@@ -51,7 +51,7 @@ library(stringi)
       EJEM_MEDIDOS_SP= sum(EJEM_MEDIDOS_CAT),#EJEMPLARES MEDIDOS DE LA SP EN LA MAREA
       PESO_SP=sum(PESO_SP_CAT), ##ESTE PESO DE LA ESPECIE EN LA MAREA
       PESO_SIRENO= sum(P_VIVO)) #PESO MAL PONDERADO DE SIRENO
-  pesos<-pesos[complete.cases(pesos[c("PESO_SP")]),]
+#  pesos<-pesos[complete.cases(pesos[c("PESO_SP")]),]
     
     
   
@@ -66,7 +66,7 @@ library(stringi)
   colnames(tallas1)[colnames(tallas1) %in% c("ESP_MUE", "ESP_CAT")] <- c("TAXON", "ESPECIE")
 
   
-  tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
+  #tallas1<-tallas1[complete.cases(tallas1[c("EJEM_MEDIDOS")]),]
     
   
   
@@ -93,6 +93,6 @@ library(stringi)
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% unique()
 
-TALLAS<-print (TALLAS)
+print (TALLAS)
   return (TALLAS)
 } 
