@@ -1,4 +1,4 @@
-library(tidyverse)
+
 
 
 modelando <- function(x, y) {
