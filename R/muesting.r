@@ -104,5 +104,5 @@ library(stringi)
                      "PESO_SP")]%>% distinct()
 
   
-return (tallas2)
+tallas2
 } 
