@@ -36,7 +36,7 @@ library(stringi)
              BARCO, TAXON=ESP_MUE,CATEGORIA, ESPECIE=ESP_CAT,P_VIVO) %>%
     summarise(
       EJEM_MEDIDOS_CAT=sum(EJEM_MEDIDOS),
-      MUEST_SP_CAT= sum(SOP)
+      MUEST_SP_CAT= sum(SOP),.groups = 'drop'
     )  %>%
     group_by(COD_ID, TAXON,ESPECIE) %>%
     mutate(
