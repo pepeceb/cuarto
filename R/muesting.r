@@ -93,7 +93,6 @@ library(stringi)
                      "ESPECIE", "TALLA_MEDIA_MAREA", "EJEM_MED_MAREA",
                      "PESO_SP")]%>% unique()
 
-  
-write.csv(TALLAS, "pesos.csv", row.names = FALSE)
+TALLAS<-print (TALLAS)
   return (TALLAS)
 } 
