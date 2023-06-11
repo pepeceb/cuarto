@@ -45,9 +45,9 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     geom_label_repel(show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
                           TALLA_MEDIA_MAREA,cooksd, 
 label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
-                          FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
+                          FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,size=2,
                               vjust=0, hjust=0.5))     +
     guides(colour = guide_legend(override.aes = list(size=5,linetype=4)))
   
-ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",AC$ESPECIE," ", ".png"), width = 35, height =25, units = "cm")
+ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"), width = 35, height =25, units = "cm")
 }
