@@ -42,7 +42,8 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-    geom_label_repel(segment.curvature = -0.1,
+    geom_label_repel(segment.curvature = -0.1,force             = 0.5,
+    nudge_x           = 0.15,
     segment.ncp = 3,
     segment.angle = 20,show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
                     size=2.8,      TALLA_MEDIA_MAREA,cooksd, 
