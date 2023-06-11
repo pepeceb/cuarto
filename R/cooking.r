@@ -46,7 +46,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     nudge_x           = 0.15,
     segment.ncp = 3,
     segment.angle = 20,show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
-                    size=3.5,      TALLA_MEDIA_MAREA,cooksd, 
+                     TALLA_MEDIA_MAREA,cooksd, 
 label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
                               vjust=0, hjust=0.5))     +
