@@ -21,8 +21,8 @@
                                    "BARCO", "ESP_MUE", "CATEGORIA", "ESP_CAT", "P_MUE_VIVO", 
                                    "P_VIVO", "TALLA", "EJEM_MEDIDOS", "SOP")] %>% as.data.frame() %>% 
       distinct()
-    fwrite(tallas, "tallas.txt)
-    tallas <- tallas[complete.cases(tallas[c("EJEM_MEDIDOS","P_MUE_VIVO")]), ]
+    fwrite(tallas, "tallas.txt")
+  
     
    # substring2(tallas$PUERTO, "CILLERO") <- "CELEIRO"
     
