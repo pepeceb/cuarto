@@ -46,7 +46,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
                           TALLA_MEDIA_MAREA,cooksd, 
 label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
-                              vjust=0, hjust=0.5))     +
+                              vjust=0, hjust=0.5,max.overlaps=Inf))     +
     guides(colour = guide_legend(override.aes = list(size=5,linetype=4)))
   
 ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",AC$ESPECIE," ", ".png"), width = 35, height =25, units = "cm")
