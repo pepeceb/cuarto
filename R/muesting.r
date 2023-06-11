@@ -5,15 +5,15 @@
     #muestreos_tallas <- data.table(muestreos_tallas)
     #muestreos_tallas <- na.omit(muestreos_tallas, cols = c("EJEM_MEDIDOS", 
     #                                                       "SOP"))
-    #muestreos_tallas$FECHA_MUE <- as.character(muestreos_tallas$FECHA_MUE)
-    #muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
-       #                                                "ENE", "JAN")
-      #   muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
-      #                                                 "ABR", "APR")
-      #   muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
-       #                                                "AGO", "AUG")
-       #  muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
-       #                                                "DIC", "DEC")
+    muestreos_tallas$FECHA_MUE <- as.character(muestreos_tallas$FECHA_MUE)
+    muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
+                                                       "ENE", "JAN")
+         muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
+                                                       "ABR", "APR")
+         muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
+                                                       "AGO", "AUG")
+         muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
+                                                       "DIC", "DEC")
          muestreos_tallas$FECHA <- dmy(muestreos_tallas$FECHA_MUE)
          muestreos_tallas$QUARTER <- quarter(muestreos_tallas$FECHA)
     tallas <- muestreos_tallas[, c("CALADERO_DCF", "COD_ID", 
