@@ -16,12 +16,12 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
          
          temp_plot  <-ggplot(data =AC,
          mapping = aes(y = cooksd, x=TALLA_MEDIA_MAREA, col=factor(PUERTO2)))  +
-     geom_point(aes(color = factor(PUERTO2)), position = "jitter",size=3) +  
+     #geom_point(aes(color = factor(PUERTO2)), position = "jitter",size=3) +  
      
      
      
-   # geom_quasirandom(aes(colour = PUERTO2, size=PESO_SP,x=TALLA_MEDIA_MAREA, y=cooksd  ))   + #,
-              #       method = "smiley")  +
+    geom_quasirandom(aes(colour = PUERTO2, size=PESO_SP,x=TALLA_MEDIA_MAREA, y=cooksd  ),
+                    method = "smiley")  +
     
     geom_hline(data = AC, aes(yintercept = 4*AC$MN),size=1.5, colour="red")  +
     guides(colour = guide_legend(override.aes = list(size = 3)))     +
@@ -42,7 +42,9 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-    geom_label_repel(show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
+    geom_label_repel(segment.curvature = -0.1,
+    segment.ncp = 3,
+    segment.angle = 20,show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
                     size=2,      TALLA_MEDIA_MAREA,cooksd, 
 label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
