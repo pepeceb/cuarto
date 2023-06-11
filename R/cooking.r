@@ -33,7 +33,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
                                        size = 14)) +
     scale_colour_manual(values=colp,limits = force)   +
     theme(legend.text = element_text(colour="steelblue", size = 10, face = "bold"))+
-    theme( legend.title = element_text(colour="blue", size=10, face="bold", label="Puerto"))+
+    theme( legend.title = element_text(colour="blue", size=10, face="bold"))+
     theme(axis.text=element_text(angle=0, size=12, face="bold")) +
     
     geom_blank(aes(x = 0.99*t_min)) + 
