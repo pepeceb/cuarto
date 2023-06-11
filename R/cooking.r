@@ -8,7 +8,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
             "MARIN"= "mediumorchid", "SAN VICENTE DE LA BARQUERA"= "tomato",
             "ISLA CRISTINA" ="steelblue", "LLANES"= "darksalmon",
             "PUNTA UMBRIA" = "slateblue3", "BARBATE"= "red3","SANTANDER"= "red",
-            "PUERTO DE SANTA MARIA"="darkorchid2","ROTA"="orange",
+            "PUERTO DE SANTA MARIA"="darkorchid2","ROTA"="orange","A BORDO" = "black",
             "CADIZ"="Chartreuse2", "TARIFA"= "coral1", "AYAMONTE"= "coral3",
             "SANLUCAR DE BARRAMEDA"= "darksalmon","PUNTA DEL MORAL"= "red",
             "CASTLETOWN BERE" = "deeppink3", "PUERTO DE LA VEGA"="black", "MUXIA"="tomato2")    
@@ -42,11 +42,11 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-    geom_label_repel(show.legend=FALSE,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
+    geom_label_repel(show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
                           TALLA_MEDIA_MAREA,cooksd, 
 label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
-                              vjust=0, hjust=0.5,max.overlaps=Inf))     +
+                              vjust=0, hjust=0.5))     +
     guides(colour = guide_legend(override.aes = list(size=5,linetype=4)))
   
 ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",AC$ESPECIE," ", ".png"), width = 35, height =25, units = "cm")
