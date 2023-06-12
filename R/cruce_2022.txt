@@ -1,4 +1,4 @@
-cruzando<-ffunction(x,y) {
+cruzando<-function(x,y) {
   
     
     #NVDP<- read_delim("D:/Usuarios/jlcebrian/Dropbox/IEO/2020/cruce_2019/NVDP2012_SIRENO.txt",
