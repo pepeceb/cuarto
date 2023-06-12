@@ -1,0 +1,514 @@
+library (data.table)
+library(tidyr)
+install.packages("lubridate")
+library(dplyr)
+library (lubridate)
+library(janitor)
+getwd()
+NVDP<- read_delim("D:/Usuarios/jlcebrian/Dropbox/IEO/2020/cruce_2019/NVDP2012_SIRENO.txt",
+                                  ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"),
+                                  trim_ws = TRUE)
+
+NVDP<-fread("NVDP2022_LAB-IEO.txt")
+
+as.data.frame(head(NVDP))
+
+NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")
+#NVDP2019_SIRENO_IEO_v28032020$FECHA <- dmy (NVDP2019_SIRENO_IEO_v28032020$FECHA_DESEMBARQUE)
+nvdpdata<-data.table(NVDP)
+subset(nvdpdata, CODIGO_BUQUE=="ESP000026608")
+head (nvdpdata)
+subset(nvdpdata, CODIGO_BUQUE=="ESP000025049")
+subset(nvdpdata, CODIGO_BUQUE=="ESP000027785")
+muestreos$CODSGPM<- as.character(muestreos$CODSGPM)
+muestreos$CODSGPM[muestreos$CODSGPM==  57347] <-27786
+muestreos$CODSGPM[muestreos$CODSGPM==  27785] <-25049
+muestreos$CODSGPM[muestreos$CODSGPM==  11350] <-15733
+
+
+
+
+NVDT<-nvdpdata[, .(PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
+                                                    "DIVICES",  "LABORATORIO","METIER_IEO","LOA", "ESTRATO_RIM", "SIRENO_SPP", "DIAS_MAREA","ANYO","CODIGO_BUQUE")]
+dim(NVDT)
+NVDT<-unique (NVDT)
+dim (NVDT)
+head(NVDT)
+subset(NVDT, CODSGPM=="27785")
+#subset(NVDT, CODIGO_BUQUE=="ESP000027785")
+subset(NVDT, CODSGPM=="25049")
+subset(NVDT, CODIGO_BUQUE=="ESP000025049")
+subset(CFPO, CODIGO_BUQUE=="ESP000027785")
+
+
+
+NVDT$CODSGPM[NVDT$CODIGO_UE==  ESP000025049] <-25049
+
+
+
+NVDT <- NVDT %>%
+  # Rename the columns
+  rename(
+    #FECHA_DESEM = FECHA_DESEMBARQUE,
+    ESTRATO_NVDP= ESTRATO_RIM,
+    ESPECIE= SIRENO_SPP
+  )
+head (NVDT)
+
+
+especies<-unique(NVDT$ESPECIE)
+head (especies)
+View(especies)
+
+
+NVDT$ESPECIE<- as.character(NVDT$ESPECIE)
+NVDT$ESPECIE[NVDT$ESPECIE==  "Psetta maxima"] <- "Scophthalmus maximus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Osteichthyes"] <- "Actinopterigios"
+NVDT$ESPECIE[NVDT$ESPECIE== "Lophiidae*"] <- "Lophius spp"
+NVDT$ESPECIE[NVDT$ESPECIE== "Lophius budegassa"] <- "Lophius spp"
+NVDT$ESPECIE[NVDT$ESPECIE== "Lophius piscatorius"] <- "Lophius spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Lophiidae"] <- "Lophius spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Lepidorhombus boscii"] <- "Lepidorhombus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Lepidorhombus whiffiagonis"] <- "Lepidorhombus spp"
+#NVDT$ESPECIE[NVDT$ESPECIE==  "Leucoraja fullonica"] <- "Rajidae"
+#NVDT$ESPECIE[NVDT$ESPECIE==  "Leucoraja circularis"] <- "Rajidae"
+
+NVDT$ESPECIE[NVDT$ESPECIE==  "Loligo vulgaris"] <- "Loligo spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Loliginidae"] <- "Loligo spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Eledone cirrhosa"] <- "Eledone spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Eledone moschata"] <- "Eledone spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Molva dypterygia"] <- "Molva macrophthalma"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Diplodus vulgaris"] <- "Diplodus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Diplodus sargus"] <- "Diplodus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Diplodus annularis"] <- "Diplodus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Diplodus puntazzo"] <- "Diplodus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Diplodus cervinus"] <- "Diplodus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Conger spp"] <- "Conger conger"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Congridae"] <- "Conger conger"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Conger orbignyanus"] <- "Conger conger"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Conger cinereus"] <- "Conger conger"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Conger myriaster"] <- "Conger conger"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys capensis"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys lastoviza"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys lucerna"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys capensis"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys lastoviza"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys obscurus"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys spp"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Aspitrigla cuculus"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trigla lyra"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trigla spp"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Lepidotrigla cavillone"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Lepidotrigla dieuzeidei"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Illex spp"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Illex illecebrosus"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Illex coindetti"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Illex illecebrosus"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Ommastrephes spp"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Todaropsis eblanae"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Todarodes sagitatus"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Illex argentinus"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Microchirus azevia"] <- "Microchirus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Microchirus variegatus"] <- "Microchirus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Mullus surmuletus"] <- "Mullus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Mullidae"] <- "Mullus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Mullus barbatus"] <- "Mullus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scombridae"] <- "Scomber spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena scrofa"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaenidae"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena spp"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena notata"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena porcus"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scyliorhinus spp"] <- "Scyliorhinus canicula"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scyliorhinidae"] <- "Scyliorhinus canicula"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia officinalis"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia elegans"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia orbignyana"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia bertheloti"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia lycidas"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia papuensis"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus trachurus"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus mediterraneus"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus picturatus"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus delagoa"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus declivis"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus lathami"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus symmetricus"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trisopterus luscus"] <- "Trisopterus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trisopterus minutus"] <- "Trisopterus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trisopterus esmarkii"] <- "Trisopterus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Alloteuthis subulata"] <- "Allotheutis spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Alloteuthis media"] <- "Allotheutis spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Atherina boyeri"] <- "Atherinidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Beryx splendens"] <- "Beryx spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Beryx decadactylus"] <- "Beryx spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Berycidae"] <- "Beryx spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachyscorpia cristulata"] <- "Scorpaenidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachyscorpia echinata"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena brasiliensis"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Dentex dentex"] <- "Dentex spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Dentex canariensis"] <- "Dentex spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Dentex gibbosus"] <- "Dentex spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Dentex macrophthalmus"] <- "Dentex spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Dentex maroccanus"] <- "Dentex spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Mustelus asterias"] <- "Mustelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Auxis rochei"] <- "Auxis spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Auxis thazard, A. rochei"] <- "Auxis spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Auxis thazard"] <- "Auxis spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Octopus spp"] <- "Octopus vulgaris"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Palaemonidae"] <- "Palaemon serratus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scomber japonicus"] <- "Scomber colias"
+
+
+NVDT$ESPECIE[NVDT$ESPECIE==  "Belone belone"] <- "Belone belone gracilis"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Engraulidae"] <- "Engraulis encrasicolus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Engraulis anchoita"] <- "Engraulis encrasicolus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Engraulis spp"] <- "Engraulis encrasicolus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Epinephelus cifuentesi"] <- "Epinephelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Epinephelus costae"] <- "Epinephelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Epinephelus daemelii"] <- "Epinephelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Epinephelus fasciatomaculosi"] <- "Epinephelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Epinephelus labriformis"] <- "Epinephelus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Helicolenus spp"] <- "Helicolenus dactylopterus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Chelidonichthys cuculus"] <- "Triglidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Beryx decadactylus"] <- "Beryx spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Raja montagui"] <- "Rajidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Raja asterias"] <- "Rajidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Leucoraja naevus"] <- "Rajidae"
+NVDT$ESPECIE[NVDT$ESPECIE== "Auxis rochei rochei"] <- "Auxis spp"
+NVDT$ESPECIE[NVDT$ESPECIE== "Eledone cirrhosa"] <- "Eledone spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Gaidropsarus mediterraneus" ] <- "Gaidropsarus"
+NVDT$ESPECIE[NVDT$ESPECIE==	"Lepidorhombus boscii" ] <- "Lepidorhombus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==		"Loligo vulgaris" ] <- "Loligo spp"
+NVDT$ESPECIE[NVDT$ESPECIE==		"Microchirus azevia" ] <- "Microchirus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==		"Microchirus variegatus" ] <- "Microchirus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==		"Mullus surmuletus" ] <- "Mullus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==		"Phycis spp" ] <- "Phycis blennoides"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scomber spp"] <- "Scomber scombrus"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpaena spp"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Scorpae-na scrofa"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachyscorpia cristulata echinata"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Sepia officinalis"] <- "Sepia spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Soleidae"] <- "Solea spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Solea solea"] <- "Solea spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Solea senegalensis"] <- "Solea spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trachurus trachurus"] <- "Trachurus spp"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Todarodes sagittatus"] <- "Ommastrephidae"
+NVDT$ESPECIE[NVDT$ESPECIE==  "Trisopterus luscus"] <- "Trisopterus spp"
+
+
+NVDT$ESPECIE[NVDT$ESPECIE==   "Illex coindetii"] <- "Ommastrephidae"
+
+NVDT$ESPECIE[NVDT$ESPECIE==   "Scomberesox saurus"] <- "Scomberesox saurus saurus"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Scorpaena spp"] <- "Scorpaeniformes"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Sepiidae"] <- "Sepiidae, Sepiolidae"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Solea lascaris"] <- "Solea spp"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Solea senegalensis"] <- "Solea spp"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Belone belone gracilis"] <- "Belone belone"
+NVDT$ESPECIE[NVDT$ESPECIE==   "Gaidropsarus"] <- "Gaidropsarus spp"
+
+
+NVDT<-NVDT %>%group_by(IDMAREA)%>%
+  mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
+head(NVDT)
+subset(NVDT, CODSGPM==25049)
+
+getwd()
+library(readr)
+muestreos <- read_delim("muestreos/IEOUPMUEDESTOTJLCEBRIAN.TXT",
+                        delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"),
+                        trim_ws = TRUE)
+head (muestreos)
+muestreos_22<-muestreos[complete.cases(muestreos[c("P_VIVO")]),]
+
+library(readxl)
+CFPO <- read_excel("CFPO.xlsx")
+
+
+CFPO <- CFPO %>%
+  # Rename the columns
+  rename(
+
+
+    CODSGPM= CODIGOBUQUE,
+  )
+CFPO<-data.table(CFPO)
+head (CFPO)
+
+CFPO1<-CFPO[, c("CODIGO_BUQUE",  "NOMBRE_BUQUE", "CODSGPM", "MODALIDAD")]
+CFPO1<-unique( CFPO1)
+subset(CFPO1, CODIGO_BUQUE=="ESP000025049")
+subset(CFPO1, NOMBRE_BUQUE=="JUNDIÑA CUARTO")
+gc()
+
+CFPO1$CODSGPM<-as.factor(CFPO1$CODSGPM)
+DTCFPO<- data.table(CFPO1)
+rm(CFPO1)
+str(DTCFPO)
+subset(DTCFPO, CODSGPM=="25049")
+subset(NVDT, CODSGPM=="25049")
+head(NVDT)
+
+
+
+
+NVDT<-left_join(NVDT,DTCFPO)
+dim(NVDT)
+head (NVDT)
+subset(NVDT, CODSGPM=="25049")
+library(Hmisc)
+
+libs <- c('dplyr', 'tibble',
+          "tidyr",# wrangling
+          'stringr',    # strings, scraping
+          'knitr',   # table styling
+          'lubridate', "Hmisc")              # labels
+invisible(lapply(libs, library, character.only = TRUE))
+
+ library(stringr)
+
+
+
+
+muestreos$CODSGPM<- ifelse(muestreos$BARCO=="ESTELA Y JOSE", 24442,muestreos$CODSGPM) ; head (muestreos)
+
+subset(muestreos, CODSGPM=="24442")%>%as.data.frame()
+
+muestreos$CODSGPM<- ifelse(muestreos$BARCO=="MARUXIA",  24736,muestreos$CODSGPM) ; head (muestreos)
+
+muestreos$CODSGPM<- ifelse(muestreos$BARCO=="MAR ABIERTO", 26890,muestreos$CODSGPM) ; head (muestreos)
+
+muestreos$CODSGPM<- ifelse(muestreos$BARCO=="NUEVO MAR ABIERTO", 26890,muestreos$CODSGPM)
+
+muestreos$CODSGPM<- ifelse(muestreos$BARCO=="CRISTO DEL SOCORRO", 23022,muestreos$CODSGPM)
+
+
+subset(muestreos, COD_ID=="202200046")%>%as.data.frame()
+
+length(unique(muestreos$COD_ID))
+colSums(is.na(muestreos))
+muestreos[,"P_VIVO"][is.na(muestreos[,"P_VIVO"])]<- 0
+muestreos_22<- muestreos[complete.cases(muestreos[c(  "P_VIVO")]),]
+muestreos_22$FECHA_MUE<-as.character (muestreos_22$FECHA_MUE)
+muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ENE", "JAN")
+muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ABR", "APR")
+muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "AGO", "AUG")
+muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "DIC", "DEC")
+muestreos_22$FECHA<-dmy(muestreos_22$FECHA_MUE)
+muestreos_22$QUARTER<-quarter(muestreos_22$FECHA)
+ID_RIM<-paste(muestreos_22$FECHA,muestreos_22$CODSGPM)
+muestreos_22<-cbind(ID_RIM, muestreos_22)  #Unimos este nuevo vector a la matriz muestreos
+muestreos_22$ID_RIM<-as.factor(muestreos_22$ID_RIM)
+levels(muestreos_22$ID_RIM) <- c(1:length(unique(muestreos_22$ID_RIM)))#Se numeran las mareas
+muestreos_22 <- muestreos_22[order(muestreos_22$ID_RIM),]
+
+
+
+muestreos_22$FECHA_MENOS1 <- as.Date(muestreos_22$FECHA-1, format = "%d/%m/%Y")
+muestreos_22$FECHA_MAS1 <- as.Date(muestreos_22$FECHA+1, format = "%d/%m/%Y")
+muestreos_22$FECHA_MENOS2 <- as.Date(muestreos_22$FECHA-2, format = "%d/%m/%Y")
+muestreos_22$FECHA_MENOS3 <- as.Date(muestreos_22$FECHA-3, format = "%d/%m/%Y")
+muestreos_22$FECHA_MENOS4 <- as.Date(muestreos_22$FECHA-4, format = "%d/%m/%Y")
+muestreos_22$FECHA_MENOS5 <- as.Date(muestreos_22$FECHA-5, format = "%d/%m/%Y")
+muestreos_22$FECHA_MAS2 <- as.Date(muestreos_22$FECHA+2, format = "%d/%m/%Y")
+muestreos_22$FECHA_MAS3 <- as.Date(muestreos_22$FECHA+3, format = "%d/%m/%Y")
+muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
+
+length(unique(muestreos_22$COD_ID))
+length(unique(muestreos$COD_ID))
+dim(muestreos_22)
+muestreos_22<-data.table(muestreos_22)
+head (muestreos_22)
+colSums(is.na(muestreos_22
+              ))
+muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
+muestreos_22$P_VIVO<-na.omit(muestreos_22$P_VIVO)
+muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
+                          by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
+                                 "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
+                                 "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]
+head (as.data.frame(muestreos2))
+muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
+muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
+muestreos2$RATIO<-round(muestreos2$RATIO,1)
+head(as.data.frame(muestreos2))
+
+colSums(is.na(muestreos2))
+
+muestreos2<-muestreos2%>%group_by(COD_ID)%>%mutate(cuantos=length(unique(ID_RIM)))
+
+muestreos3<- gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
+  mutate(ORDEN=TIPO_FECHA)%>%
+  select(ID_RIM,COD_ID,  CODSGPM, BARCO ,FECHA_MUE,
+         FECHA, TIPO_FECHA, ORDEN, ESTRATO_RIM, METIER_DCF, PUERTO,
+         COD_TIPO_MUE,ESPECIE=ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
+muestreos3<- arrange (muestreos3,FECHA)
+muestreos3 <- distinct (muestreos3)
+
+str(muestreos3)
+length(unique(muestreos3$COD_ID))
+length(unique(muestreos3$ID_RIM))
+
+
+muestreos3$ORDEN<-plyr::revalue(muestreos3$ORDEN, c("FECHA"="1", "FECHA_MENOS1"="2","FECHA_MAS1"="3",
+                                                    "FECHA_MENOS2"="4" ,  "FECHA_MAS2"="6",
+                                                    "FECHA_MENOS3" = "5","FECHA_MENOS4" = "7",
+                                                    "FECHA_MENOS5"="8","FECHA_MAS3"="9"))
+muestreos3<-arrange(muestreos3, ID_RIM, ORDEN)
+head (as.data.frame(muestreos3),2)
+tail (as.data.frame(muestreos3))
+
+subset(muestreos3, CODSGPM=="23517")%>%as.data.table()
+#muestreos3$CODSGPM<- ifelse(muestreos3$COD_ID=="201903491", 23517,muestreos3$CODSGPM) ; head (muestreos3)
+#muestreos3$BARCO<- ifelse(muestreos3$COD_ID=="201903491", "MADRE PILAR",muestreos3$BARCO) ; head (muestreos3)
+#prueba<-subset(muestreos3, COD_ID=="201900834"); head (prueba)
+
+
+
+
+muestreos4<-distinct(muestreos3[,c(1:12)])
+head (as.data.frame(muestreos4))
+subset(muestreos4, ID_RIM==3960)
+
+#############CRUCE################
+
+NVDT<-data.table(NVDT)
+
+head(NVDT)
+head (NVDT[,c(1:10,12,13,15:19)])
+
+muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
+
+NVDT$CODSGPM<-as.factor(NVDT$CODSGPM)
+
+rm(cruce1)
+cruce1 <-  full_join(muestreos3,unique(NVDT[,c(1:10,12,13,15,16,29,41)]), by=c("FECHA", "CODSGPM")) %>%
+  arrange ( ORDEN,-RATIO) %>%
+  mutate(ORDEN2 = ifelse(duplicated(IDMAREA),ORDEN=="10", ORDEN),
+         ORDEN3 = ifelse(is.na(IDMAREA),"NULL","OK")) %>%distinct()%>%
+  arrange(ID_RIM, ORDEN)%>%as.data.frame()
+
+cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
+#cruce1$A?O<-year(cruce1$FECHA)
+subset(cruce1,CODSGPM=="23022")
+
+cruce1<-cruce1%>%select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
+                        DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
+                        FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
+cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros
+#sapply(cruce1, function(y) sum(length(which(is.na(y)))))
+
+
+as.data.frame(head(cruce1,10))
+cruce1$ID_RIM<-as.numeric(cruce1$ID_RIM)
+length(unique(cruce1$COD_ID))
+length(unique(cruce1$ID_RIM))
+length(unique(cruce1$IDMAREA))
+#paso clave para crear columna de cruza o no cruza
+cruce1<-cruce1%>%group_by(COD_ID)%>%mutate(
+  ORDEN4=ifelse(any(ORDEN3=="OK"),"cruza", "NO_cruza"))%>%
+  arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
+as.data.frame(head (cruce1,20))
+
+#eliminar??
+#cruce1<-cruce1%>%group_by(COD_ID)%>%
+ # mutate(num_reg=sum(is.na(IDMAREA)))%>%as.data.frame()
+cruce2<-cruce1 %>%
+  group_by(COD_ID) %>%
+  slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
+head(cruce1)
+head(cruce2)
+tail(cruce2)###############
+
+length(unique(cruce2$COD_ID))
+length(unique(muestreos$COD_ID))
+subset(cruce2,ID_RIM==1)
+cruce2<- cruce1[complete.cases(cruce1[c(  "ID_RIM")]),]
+cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
+  arrange(ID_RIM)%>%mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))
+#as.data.frame(head(cruce2,20))
+ #prueba<-subset(cruce1, COD_ID==202203491); head (prueba)
+
+table(cruce1$ORDEN4)
+no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
+                                      ESTRATO_RIM
+                                              )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
+length(unique(no_cruzan$COD_ID))
+#AVEDAL2<-subset(NVDT, CODSGPM=="25804" & FECHA>"2019-11-10")%>%arrange(FECHA)%>%distinct(); as.data.frame(head(AVEDAL2,15))
+#
+table(NVDT$ESTRATO_NVDP)
+
+#AVEDAL<-subset(muestreos19, BARCO=="AVEDAL"); header (AVEDAL)
+#length(unique(no_cruzan$COD_ID))
+head (no_cruzan,10)
+no_cruzan[c(11:20),]
+no_cruzan[c(21:30),]
+no_cruzan[c(31:40),]%>%as.data.frame()
+no_cruzan[c(41:50),]%>%as.data.frame()
+no_cruzan[c(51:60),]%>%as.data.frame()
+no_cruzan[c(61:70),]%>%as.data.frame()
+no_cruzan[c(71:80),]%>%as.data.frame()
+no_cruzan[c(81:90),]%>%as.data.frame()
+no_cruzan[c(91:100),]%>%as.data.frame()
+
+no_cruzan[c(101:110),]%>%as.data.frame()
+no_cruzan[c(111:121),]%>%as.data.frame()
+no_cruzan[c(122:163),]%>%as.data.frame()
+subset(muestreosdata, COD_ID=="201902914")
+subset (muestreos19, ID_RIM==3609)
+#as.data.frame8subset (cruce1, COD_ID==201901874))
+#View(cruce1)
+openxlsx::   write.xlsx(no_cruzan,
+           file = "NO_CRUZAN.xlsx",
+           sheetName = "NO_IDMAREA",
+           somearg = TRUE)
+length(unique(cruce2$COD_ID))
+length(unique(cruce2$ID_RIM))
+length(unique(cruce2$IDMAREA))
+
+
+cruce3<-cruce2 %>%
+  group_by(COD_ID) %>%
+  top_n(n =-2, wt = ORDEN2)  %>%
+  arrange(ID_RIM)%>%group_by(COD_ID) %>%
+  top_n(n =-1, wt = dif)%>%group_by(COD_ID) %>%
+  slice(which.min(ORDEN))%>%
+  as.data.frame()
+subset(cruce3, IDMAREA=="19409698")
+subset(cruce3, COD_ID=="201903491")
+head (cruce3,22)
+
+  cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
+  length(unique(cruce3$COD_ID))
+  length(unique(cruce3$ID_RIM))
+  length(unique(cruce3$IDMAREA))
+  names(cruce3)
+cruce3%>%group_by(COD_ID)%>%
+   mutate(
+
+    prueba=n_distinct(IDMAREA)
+  ) %>% filter (prueba>1)%>%as.data.frame()
+
+export_cruce<-cruce3[,c(
+  "ANYO"           , "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
+  "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
+  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"     ,  "ESTRATO_NVDP"      ,
+  "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
+  "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
+  "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
+    "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
+head (export_cruce)
+head (no_cruzan)%>%arrange(ID_RIM)
+length(unique(export_cruce$COD_ID))
+length(unique(no_cruzan$COD_ID))
+
+tabyl(no_cruzan, ESTRATO_RIM, COD_TIPO_MUE)%>%arrange(2)
+tabyl(no_cruzan, BARCO)%>%arrange(-n)
+tabyl(no_cruzan,PUERTO)%>%arrange(-n)
+tabyl(no_cruzan,COD_TIPO_MUE)%>%arrange(-n)
+tabyl(cruce3,COD_TIPO_MUE)%>%arrange(-n)
+getwd()
+openxlsx::write.xlsx(export_cruce,
+           file = "cruce_31_03v2.xlsx",
+           sheetName = "cruce1",
+           somearg = TRUE)
