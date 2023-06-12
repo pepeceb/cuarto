@@ -1,324 +1,254 @@
-cruzando<-funtion(x, y){
-
-library (data.table)
-library(tidyr)
-#install.packages("lubridate")
-library(dplyr)
-library (lubridate)
-library(janitor)
-
-#NVDP<- read_delim("D:/Usuarios/jlcebrian/Dropbox/IEO/2020/cruce_2019/NVDP2012_SIRENO.txt",
-#                                  ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"),
- #                                 trim_ws = TRUE)
-
-NVDP<-fread("NVDP2022_SIRENOO.txt")
-
-
-NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")
-#NVDP2019_SIRENO_IEO_v28032020$FECHA <- dmy (NVDP2019_SIRENO_IEO_v28032020$FECHA_DESEMBARQUE)
-nvdpdata<-data.table(NVDP)
-subset(nvdpdata, CODIGO_BUQUE=="ESP000026608")
-head (nvdpdata)
-subset(nvdpdata, CODIGO_BUQUE=="ESP000025049")
-subset(nvdpdata, CODIGO_BUQUE=="ESP000027785")
-muestreos$CODSGPM<- as.character(muestreos$CODSGPM)
-muestreos$CODSGPM[muestreos$CODSGPM==  57347] <-27786
-muestreos$CODSGPM[muestreos$CODSGPM==  27785] <-25049
-muestreos$CODSGPM[muestreos$CODSGPM==  11350] <-15733
-
-
-
-
-NVDT<-nvdpdata[, .(PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
-                                                    "DIVICES",  "LABORATORIO","METIER_IEO","LOA", "ESTRATO_RIM", "SIRENO_SPP", "DIAS_MAREA","ANYO","CODIGO_BUQUE")]
-dim(NVDT)
-NVDT<-unique (NVDT)
-dim (NVDT)
-head(NVDT)
-subset(NVDT, CODSGPM=="27785")
-#subset(NVDT, CODIGO_BUQUE=="ESP000027785")
-subset(NVDT, CODSGPM=="25049")
-subset(NVDT, CODIGO_BUQUE=="ESP000025049")
-subset(CFPO, CODIGO_BUQUE=="ESP000027785")
-
-
-
-NVDT$CODSGPM[NVDT$CODIGO_UE==  ESP000025049] <-25049
-
-
-
-NVDT <- NVDT %>%
-  # Rename the columns
-  rename(
-    #FECHA_DESEM = FECHA_DESEMBARQUE,
-    ESTRATO_NVDP= ESTRATO_RIM,
-    ESPECIE= SIRENO_SPP
-  )
-head (NVDT)
-
-
-
-
-
-NVDT<-NVDT %>%group_by(IDMAREA)%>%
-  mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
-
-library(readr)
-muestreos <- read_delim("muestreos/IEOUPMUEDESTOTJLCEBRIAN.TXT",
-                        delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"),
-                        trim_ws = TRUE)
-
-muestreos_22<-muestreos[complete.cases(muestreos[c("P_VIVO")]),]
-
-library(readxl)
-CFPO <- read_excel("CFPO.xlsx")
-
-
-CFPO <- CFPO %>%
-  # Rename the columns
-  rename(
-
-
-    CODSGPM= CODIGOBUQUE,
-  )
-CFPO<-data.table(CFPO)
-head (CFPO)
-
-CFPO1<-CFPO[, c("CODIGO_BUQUE",  "NOMBRE_BUQUE", "CODSGPM", "MODALIDAD")]
-CFPO1<-unique( CFPO1)
-subset(CFPO1, CODIGO_BUQUE=="ESP000025049")
-subset(CFPO1, NOMBRE_BUQUE=="JUNDIÑA CUARTO")
-gc()
-
-CFPO1$CODSGPM<-as.factor(CFPO1$CODSGPM)
-DTCFPO<- data.table(CFPO1)
-rm(CFPO1)
-
-
-
-
-
-
-
-NVDT<-left_join(NVDT,DTCFPO)
-
-library(Hmisc)
-
-libs <- c('dplyr', 'tibble',
-          "tidyr",# wrangling
-          'stringr',    # strings, scraping
-          'knitr',   # table styling
-          'lubridate', "Hmisc")              # labels
-invisible(lapply(libs, library, character.only = TRUE))
-
- library(stringr)
-
-
-
-
-muestreos$CODSGPM<- ifelse(muestreos$BARCO=="ESTELA Y JOSE", 24442,muestreos$CODSGPM) ; head (muestreos)
-
-subset(muestreos, CODSGPM=="24442")%>%as.data.frame()
-
-muestreos$CODSGPM<- ifelse(muestreos$BARCO=="MARUXIA",  24736,muestreos$CODSGPM) ; head (muestreos)
-
-muestreos$CODSGPM<- ifelse(muestreos$BARCO=="MAR ABIERTO", 26890,muestreos$CODSGPM) ; head (muestreos)
-
-muestreos$CODSGPM<- ifelse(muestreos$BARCO=="NUEVO MAR ABIERTO", 26890,muestreos$CODSGPM)
-
-muestreos$CODSGPM<- ifelse(muestreos$BARCO=="CRISTO DEL SOCORRO", 23022,muestreos$CODSGPM)
-
-
-
-muestreos[,"P_VIVO"][is.na(muestreos[,"P_VIVO"])]<- 0
-muestreos_22<- muestreos[complete.cases(muestreos[c(  "P_VIVO")]),]
-muestreos_22$FECHA_MUE<-as.character (muestreos_22$FECHA_MUE)
-muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ENE", "JAN")
-muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ABR", "APR")
-muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "AGO", "AUG")
-muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "DIC", "DEC")
-muestreos_22$FECHA<-dmy(muestreos_22$FECHA_MUE)
-muestreos_22$QUARTER<-quarter(muestreos_22$FECHA)
-ID_RIM<-paste(muestreos_22$FECHA,muestreos_22$CODSGPM)
-muestreos_22<-cbind(ID_RIM, muestreos_22)  #Unimos este nuevo vector a la matriz muestreos
-muestreos_22$ID_RIM<-as.factor(muestreos_22$ID_RIM)
-levels(muestreos_22$ID_RIM) <- c(1:length(unique(muestreos_22$ID_RIM)))#Se numeran las mareas
-muestreos_22 <- muestreos_22[order(muestreos_22$ID_RIM),]
-
-
-
-muestreos_22$FECHA_MENOS1 <- as.Date(muestreos_22$FECHA-1, format = "%d/%m/%Y")
-muestreos_22$FECHA_MAS1 <- as.Date(muestreos_22$FECHA+1, format = "%d/%m/%Y")
-muestreos_22$FECHA_MENOS2 <- as.Date(muestreos_22$FECHA-2, format = "%d/%m/%Y")
-muestreos_22$FECHA_MENOS3 <- as.Date(muestreos_22$FECHA-3, format = "%d/%m/%Y")
-muestreos_22$FECHA_MENOS4 <- as.Date(muestreos_22$FECHA-4, format = "%d/%m/%Y")
-muestreos_22$FECHA_MENOS5 <- as.Date(muestreos_22$FECHA-5, format = "%d/%m/%Y")
-muestreos_22$FECHA_MAS2 <- as.Date(muestreos_22$FECHA+2, format = "%d/%m/%Y")
-muestreos_22$FECHA_MAS3 <- as.Date(muestreos_22$FECHA+3, format = "%d/%m/%Y")
-muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
-
-
-muestreos_22<-data.table(muestreos_22)
-
-#muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
-#muestreos_22$P_VIVO<-na.omit(muestreos_22$P_VIVO)
-muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
-                          by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
-                                 "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
-                                 "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]
-
-muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
-muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
-muestreos2$RATIO<-round(muestreos2$RATIO,1)
-
-
-
-muestreos2<-muestreos2%>%group_by(COD_ID)%>%mutate(cuantos=length(unique(ID_RIM)))
-library(tidyr)
-muestreos3<- gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
-  mutate(ORDEN=TIPO_FECHA)%>%
-  select(ID_RIM,COD_ID,  CODSGPM, BARCO ,FECHA_MUE,
-         FECHA, TIPO_FECHA, ORDEN, ESTRATO_RIM, METIER_DCF, PUERTO,
-         COD_TIPO_MUE,ESPECIE=ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
-muestreos3<- arrange (muestreos3,FECHA)
-muestreos3 <- distinct (muestreos3)
-
-
-
-
-muestreos3$ORDEN<-plyr::revalue(muestreos3$ORDEN, c("FECHA"="1", "FECHA_MENOS1"="2","FECHA_MAS1"="3",
-                                                    "FECHA_MENOS2"="4" ,  "FECHA_MAS2"="6",
-                                                    "FECHA_MENOS3" = "5","FECHA_MENOS4" = "7",
-                                                    "FECHA_MENOS5"="8","FECHA_MAS3"="9"))
-muestreos3<-arrange(muestreos3, ID_RIM, ORDEN)
-
-
-#muestreos3$CODSGPM<- ifelse(muestreos3$COD_ID=="201903491", 23517,muestreos3$CODSGPM) ; head (muestreos3)
-#muestreos3$BARCO<- ifelse(muestreos3$COD_ID=="201903491", "MADRE PILAR",muestreos3$BARCO) ; head (muestreos3)
-#prueba<-subset(muestreos3, COD_ID=="201900834"); head (prueba)
-
-
-
-
-muestreos4<-distinct(muestreos3[,c(1:12)])
-head (as.data.frame(muestreos4))
-
-
-#############CRUCE################
-
-NVDT<-data.table(NVDT)
-
-head(NVDT)
-head (NVDT[,c(1:10,12,13,15:19)])
-
-muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
-
-NVDT$CODSGPM<-as.factor(NVDT$CODSGPM)
-
-rm(cruce1)
-cruce1 <-  full_join(muestreos3,unique(NVDT[,c(1:10,12,13,15,16,29,41)]), by=c("FECHA", "CODSGPM")) %>%
-  arrange ( ORDEN,-RATIO) %>%
-  mutate(ORDEN2 = ifelse(duplicated(IDMAREA),ORDEN=="10", ORDEN),
-         ORDEN3 = ifelse(is.na(IDMAREA),"NULL","OK")) %>%distinct()%>%
-  arrange(ID_RIM, ORDEN)%>%as.data.frame()
-
-cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
-#cruce1$A?O<-year(cruce1$FECHA)
-subset(cruce1,CODSGPM=="23022")
-
-cruce1<-cruce1%>%select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
-                        DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
-                        FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
-cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros
-#sapply(cruce1, function(y) sum(length(which(is.na(y)))))
-
-
-as.data.frame(head(cruce1,10))
-cruce1$ID_RIM<-as.numeric(cruce1$ID_RIM)
-length(unique(cruce1$COD_ID))
-length(unique(cruce1$ID_RIM))
-length(unique(cruce1$IDMAREA))
-#paso clave para crear columna de cruza o no cruza
-cruce1<-cruce1%>%group_by(COD_ID)%>%mutate(
-  ORDEN4=ifelse(any(ORDEN3=="OK"),"cruza", "NO_cruza"))%>%
-  arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
-as.data.frame(head (cruce1,20))
-
-#eliminar??
-#cruce1<-cruce1%>%group_by(COD_ID)%>%
- # mutate(num_reg=sum(is.na(IDMAREA)))%>%as.data.frame()
-cruce2<-cruce1 %>%
-  group_by(COD_ID) %>%
-  slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
-head(cruce1)
-head(cruce2)
-tail(cruce2)###############
-
-length(unique(cruce2$COD_ID))
-length(unique(muestreos$COD_ID))
-subset(cruce2,ID_RIM==1)
-cruce2<- cruce1[complete.cases(cruce1[c(  "ID_RIM")]),]
-cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
-  arrange(ID_RIM)%>%mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))
-#as.data.frame(head(cruce2,20))
- #prueba<-subset(cruce1, COD_ID==202203491); head (prueba)
-
-table(cruce1$ORDEN4)
-no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
-                                      ESTRATO_RIM
-                                              )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
-length(unique(no_cruzan$COD_ID))
-#AVEDAL2<-subset(NVDT, CODSGPM=="25804" & FECHA>"2019-11-10")%>%arrange(FECHA)%>%distinct(); as.data.frame(head(AVEDAL2,15))
-#
-table(NVDT$ESTRATO_NVDP)
-
-#AVEDAL<-subset(muestreos19, BARCO=="AVEDAL"); header (AVEDAL)
-#length(unique(no_cruzan$COD_ID))
-head (no_cruzan,10)
-
-#View(cruce1)
-openxlsx::   write.xlsx(no_cruzan,
-           file = "NO_CRUZAN.xlsx",
-           sheetName = "NO_IDMAREA",
-           somearg = TRUE)
-
-
-
-cruce3<-cruce2 %>%
-  group_by(COD_ID) %>%
-  top_n(n =-2, wt = ORDEN2)  %>%
-  arrange(ID_RIM)%>%group_by(COD_ID) %>%
-  top_n(n =-1, wt = dif)%>%group_by(COD_ID) %>%
-  slice(which.min(ORDEN))%>%
-  as.data.frame()
-
-
-  cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
-
-
-
-export_cruce<-cruce3[,c(
-  "ANYO"           , "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
-  "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
-  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"     ,  "ESTRATO_NVDP"      ,
-  "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
-  "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
-  "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
-    "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
-head (export_cruce)
-head (no_cruzan)%>%arrange(ID_RIM)
-length(unique(export_cruce$COD_ID))
-length(unique(no_cruzan$COD_ID))
-
-tabyl(no_cruzan, ESTRATO_RIM, COD_TIPO_MUE)%>%arrange(2)
-tabyl(no_cruzan, BARCO)%>%arrange(-n)
-tabyl(no_cruzan,PUERTO)%>%arrange(-n)
-tabyl(no_cruzan,COD_TIPO_MUE)%>%arrange(-n)
-tabyl(cruce3,COD_TIPO_MUE)%>%arrange(-n)
-getwd()
-openxlsx::write.xlsx(export_cruce,
-           file = "cruce_31_03v2.xlsx",
-           sheetName = "cruce1",
-           somearg = TRUE)
-           
-           }
+cruzando<-ffunction(x,y) {
+  
+    
+    #NVDP<- read_delim("D:/Usuarios/jlcebrian/Dropbox/IEO/2020/cruce_2019/NVDP2012_SIRENO.txt",
+    #                                  ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"),
+    #                                 trim_ws = TRUE)
+    
+    NVDP<-fread("NVDP2022_SIRENO.txt")
+    
+    
+    NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")
+    #NVDP2019_SIRENO_IEO_v28032020$FECHA <- dmy (NVDP2019_SIRENO_IEO_v28032020$FECHA_DESEMBARQUE)
+    nvdpdata<-data.table(NVDP)
+
+    head (nvdpdata)
+
+  
+    muestreos<-read_delim("IEOUPMUEDESTOTJLCEBRIAN.TXT", 
+                                   delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"), 
+                                   trim_ws = TRUE)
+    
+    
+    
+    
+    NVDT<-nvdpdata[, .(PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
+                                                        "DIVICES",  "LABORATORIO","METIER_IEO","LOA", "ESTRATO_RIM", "SIRENO_SPP", "DIAS_MAREA","ANYO","CODIGO_BUQUE")]
+    
+
+    
+    
+    
+    
+    
+    
+    NVDT <- NVDT %>%
+      # Rename the columns
+      rename(
+        #FECHA_DESEM = FECHA_DESEMBARQUE,
+        ESTRATO_NVDP= ESTRATO_RIM,
+        ESPECIE= SIRENO_SPP
+      )
+    head (NVDT)
+    
+    
+    
+    
+    
+    NVDT<-NVDT %>%group_by(IDMAREA)%>%
+      mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
+    
+    library(readr)
+    muestreos <- read_delim("muestreos/IEOUPMUEDESTOTJLCEBRIAN.TXT", 
+                            delim = ";", escape_double = FALSE, trim_ws = TRUE)
+    
+    muestreos_22<-muestreos[complete.cases(muestreos[c("P_VIVO")]),]
+    
+    library(readxl)
+    CFPO <- read_excel("CFPO.xlsx")
+    
+    
+    CFPO <- CFPO %>%
+      # Rename the columns
+      rename(
+        
+        
+        CODSGPM= CODIGOBUQUE,
+      )
+    CFPO<-data.table(CFPO)
+    head (CFPO)
+    
+    CFPO1<-CFPO[, c("CODIGO_BUQUE",  "NOMBRE_BUQUE", "CODSGPM", "MODALIDAD")]
+    CFPO1<-unique( CFPO1)
+  
+    gc()
+    
+    CFPO1$CODSGPM<-as.factor(CFPO1$CODSGPM)
+    DTCFPO<- data.table(CFPO1)
+    rm(CFPO1)
+    
+    
+    
+    
+    
+    
+    
+    NVDT<-left_join(NVDT,DTCFPO)
+    
+    
+
+    
+    library(stringr)
+    
+    
+   
+    
+    
+    
+    muestreos[,"P_VIVO"][is.na(muestreos[,"P_VIVO"])]<- 0
+    #muestreos_22<- muestreos[complete.cases(muestreos[c(  "P_VIVO")]),]
+    muestreos_22$FECHA_MUE<-as.character (muestreos_22$FECHA_MUE)
+    muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ENE", "JAN")
+    muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ABR", "APR")
+    muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "AGO", "AUG")
+    muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "DIC", "DEC")
+    muestreos_22$FECHA<-dmy(muestreos_22$FECHA_MUE)
+    muestreos_22$QUARTER<-quarter(muestreos_22$FECHA)
+    ID_RIM<-paste(muestreos_22$FECHA,muestreos_22$CODSGPM)
+    muestreos_22<-cbind(ID_RIM, muestreos_22)  #Unimos este nuevo vector a la matriz muestreos
+    muestreos_22$ID_RIM<-as.factor(muestreos_22$ID_RIM)
+    levels(muestreos_22$ID_RIM) <- c(1:length(unique(muestreos_22$ID_RIM)))#Se numeran las mareas
+    muestreos_22 <- muestreos_22[order(muestreos_22$ID_RIM),]
+    
+    
+    
+    muestreos_22$FECHA_MENOS1 <- as.Date(muestreos_22$FECHA-1, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MAS1 <- as.Date(muestreos_22$FECHA+1, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MENOS2 <- as.Date(muestreos_22$FECHA-2, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MENOS3 <- as.Date(muestreos_22$FECHA-3, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MENOS4 <- as.Date(muestreos_22$FECHA-4, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MENOS5 <- as.Date(muestreos_22$FECHA-5, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MAS2 <- as.Date(muestreos_22$FECHA+2, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MAS3 <- as.Date(muestreos_22$FECHA+3, format = "%d/%m/%Y")
+    muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
+    
+    
+    muestreos_22<-data.table(muestreos_22)
+    
+    #muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
+    #muestreos_22$P_VIVO<-na.omit(muestreos_22$P_VIVO)
+    muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
+                             by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
+                                    "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
+                                    "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]
+    
+    muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
+    muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
+    muestreos2$RATIO<-round(muestreos2$RATIO,1)
+    
+    
+    
+    muestreos2<-muestreos2%>%group_by(COD_ID)%>%mutate(cuantos=length(unique(ID_RIM)))
+    library(tidyr)
+    muestreos3<- gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
+      mutate(ORDEN=TIPO_FECHA)%>%
+      select(ID_RIM,COD_ID,  CODSGPM, BARCO ,FECHA_MUE,
+             FECHA, TIPO_FECHA, ORDEN, ESTRATO_RIM, METIER_DCF, PUERTO,
+             COD_TIPO_MUE,ESPECIE=ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
+    muestreos3<- arrange (muestreos3,FECHA)
+    muestreos3 <- distinct (muestreos3)
+    
+    
+    
+    
+    muestreos3$ORDEN<-plyr::revalue(muestreos3$ORDEN, c("FECHA"="1", "FECHA_MENOS1"="2","FECHA_MAS1"="3",
+                                                        "FECHA_MENOS2"="4" ,  "FECHA_MAS2"="6",
+                                                        "FECHA_MENOS3" = "5","FECHA_MENOS4" = "7",
+                                                        "FECHA_MENOS5"="8","FECHA_MAS3"="9"))
+    muestreos3<-arrange(muestreos3, ID_RIM, ORDEN)
+    
+    
+    #muestreos3$CODSGPM<- ifelse(muestreos3$COD_ID=="201903491", 23517,muestreos3$CODSGPM) ; head (muestreos3)
+    #muestreos3$BARCO<- ifelse(muestreos3$COD_ID=="201903491", "MADRE PILAR",muestreos3$BARCO) ; head (muestreos3)
+    #prueba<-subset(muestreos3, COD_ID=="201900834"); head (prueba)
+    
+    
+    
+    
+    muestreos4<-distinct(muestreos3[,c(1:12)])
+    head (as.data.frame(muestreos4))
+    
+    
+    #############CRUCE################
+    
+    NVDT<-data.table(NVDT)
+    
+ 
+    
+    muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
+    
+    NVDT$CODSGPM<-as.factor(NVDT$CODSGPM)
+    
+    rm(cruce1)
+    cruce1 <-  left_join(muestreos3,unique(NVDT[,c(1:9,13,16,17,15)])   , by=c("FECHA", "CODSGPM")) %>%
+      arrange ( ORDEN,-RATIO) %>%
+      mutate(ORDEN2 = ifelse(duplicated(IDMAREA),ORDEN=="10", ORDEN),
+             ORDEN3 = ifelse(is.na(IDMAREA),"NULL","OK")) %>%distinct()%>%
+      arrange(ID_RIM, ORDEN)%>%as.data.frame()
+    
+    cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
+   
+    
+    cruce1<-cruce1%>%select(ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
+                            DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
+                            FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
+   # cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros
+    #sapply(cruce1, function(y) sum(length(which(is.na(y)))))
+    
+    
+    #paso clave para crear columna de cruza o no cruza
+    cruce1<-cruce1%>%group_by(COD_ID)%>%mutate(
+      ORDEN4=ifelse(any(ORDEN3=="OK"),"cruza", "NO_cruza"))%>%
+      arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
+    as.data.frame(head (cruce1,20))
+    cruce2<- cruce1[complete.cases(cruce1[c(  "ID_RIM")]),]
+    #eliminar??
+    #cruce1<-cruce1%>%group_by(COD_ID)%>%
+    # mutate(num_reg=sum(is.na(IDMAREA)))%>%as.data.frame()
+    cruce2   <-cruce2 %>%
+      group_by(COD_ID) %>%
+      slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
+
+    
+    cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
+      arrange(ID_RIM)%>%mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))
+
+    
+    table(cruce1$ORDEN4)
+    no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
+                                                           ESTRATO_RIM
+    )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
+    length(unique(no_cruzan$COD_ID))
+   
+    
+    #View(cruce1)
+    fwrite(no_cruzan,
+                            "NO_CRUZAN.xlsx")
+                           
+    
+    
+    
+    cruce3<-cruce2 %>%
+      group_by(COD_ID) %>%
+      top_n(n =-2, wt = ORDEN2)  %>%
+      arrange(ID_RIM)%>%group_by(COD_ID) %>%
+      top_n(n =-1, wt = dif)%>%group_by(COD_ID) %>%
+      slice(which.min(ORDEN))%>%
+      as.data.frame()
+    
+    
+    cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
+    
+    
+    
+    export_cruce<-cruce3[,c(
+             "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
+      "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
+      "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"     ,  "ESTRATO_NVDP"      ,
+      "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
+      "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
+      "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
+      "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
+    return (export_cruce)
+    
+    }
