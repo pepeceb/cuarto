@@ -105,7 +105,8 @@ muestreos2$RATIO<-round(muestreos2$RATIO,1)
   dplyr::mutate(ORDEN=TIPO_FECHA)%>%
   select(ID_RIM,COD_ID,  CODSGPM, BARCO ,FECHA_MUE,
          FECHA, TIPO_FECHA, ORDEN, ESTRATO_RIM, METIER_DCF, PUERTO,
-         COD_TIPO_MUE,ESPECIE=ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
+         COD_TIPO_MUE,ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
+  muestreos3$ESPECIE<-muestreos3$ESP_MUE
 muestreos3<- arrange (muestreos3,FECHA)
 muestreos3 <- distinct (muestreos3)
   
