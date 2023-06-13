@@ -14,7 +14,7 @@ cruzando<-function(x,y) {
     
     
     
-    NVDT<-nvdpdata[, .(PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
+    NVDT<-nvdpdata[, (PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
                                                         "DIVICES",  "LABORATORIO","METIER_IEO","LOA", "ESTRATO_RIM", "SIRENO_SPP", "DIAS_MAREA","ANYO","CODIGO_BUQUE")]
     
 
