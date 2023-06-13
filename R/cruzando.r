@@ -3,19 +3,12 @@ cruzando<-function(x,y) {
    library(data.table) 
     NVDP<-fread("NVDP2022_SIRENO.txt")
     
-    NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")
-
-    nvdpdata<-data.table(NVDP)
-
-    head (nvdpdata)
-
-
-   
+    NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")  
     
-    
-    
-    NVDT<-NVDP[, (PESO=round(sum(PESO,2))), by = c("IDMAREA","FECHA", "FECHA_DESEMBARQUE","PUERTO_DESEMBARQUE",
-                                                        "DIVICES",  "LABORATORIO","METIER_IEO","LOA", "ESTRATO_RIM", "SIRENO_SPP", "DIAS_MAREA","ANYO","CODIGO_BUQUE")]
+NVDT<-NVDP%>%group_by (IDMAREA,FECHA, FECHA_DESEMBARQUE,PUERTO_DESEMBARQUE,
+                  DIVICES,  LABORATORIO,METIER_IEO,LOA, ESTRATO_RIM,
+                  SIRENO_SPP, DIAS_MAREA,ANYO,CODIGO_BUQUE)%>%
+ dplyr::summarise(PESO=sum(PESO))%>%as.data.table()
     
 
     
