@@ -18,7 +18,7 @@ NVDT <- NVDT %>%
     ESPECIE= SIRENO_SPP
   )   
     
-    
+    a 
 
     
   NVDT<-NVDT %>%group_by(IDMAREA)%>%
