@@ -156,7 +156,7 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
                                       ESTRATO_RIM
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
   
-  
+library(openxlsx)  
   openxlsx::   write.xlsx(no_cruzan,
            file = "NO_CRUZAN2.xlsx",
            sheetName = "NO_IDMAREA",
@@ -185,8 +185,9 @@ return(cruce3)
 head (export_cruce)
   
   openxlsx::write.xlsx(export_cruce,
-           file = "cruce_31_03v2.xlsx",
-           sheetName = "cruce1",
+           file = "export_cruce.csv",
+           sheetName = "cruce",
            somearg = TRUE)
+  fwrite(export_cruce, "export_txt")
     
   }
