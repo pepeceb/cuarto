@@ -148,5 +148,16 @@ as.data.frame(head (cruce1,20))
 cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
   arrange(ID_RIM)%>%
   dplyr::mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))  
+  
+  
+  no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
+                                      ESTRATO_RIM
+                                              )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
+  
+  
+  openxlsx::   write.xlsx(no_cruzan,
+           file = "NO_CRUZAN.xlsx",
+           sheetName = "NO_IDMAREA",
+           somearg = TRUE)
     
   }
