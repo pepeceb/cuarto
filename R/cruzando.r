@@ -23,7 +23,7 @@ NVDT <- NVDT %>%
     
   NVDT<-NVDT %>%group_by(IDMAREA)%>%
   dplyr:: mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
-        fwrite(NVDT, "NVDT.txt")
+
   
   
   
@@ -44,6 +44,11 @@ CFPO1<-unique( CFPO1)
 DTCFPO<- data.table(CFPO1)
 rm(CFPO1)
   NVDT<-dplyr::left_join(NVDT,DTCFPO)
+          fwrite(NVDT, "NVDT.txt", bom=TRUE)
+  
+  
+  
+  
   library(readr)
   
 
@@ -98,7 +103,7 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
 #head(as.data.frame(muestreos2))
   
-     fwrite(muestreos2, "muestreos2.txt") 
+     fwrite(muestreos2, "muestreos2.txt", bom=TRUE) 
   
   library(tidyr)
   muestreos3<- tidyr::gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
@@ -145,12 +150,12 @@ cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
   arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
 as.data.frame(head (cruce1,20))
 
-     fwrite(cruce1, "kkkk1.txt") 
+     fwrite(cruce1, "cruce1.txt", bom=TRUE)  
   
 no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
                                       ESTRATO_RIM
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)  
-      fwrite(no_cruzan, "NO_CRUZAN.txt") 
+      fwrite(no_cruzan, "NO_CRUZAN.txt", bom=TRUE) 
   
   
   
@@ -184,7 +189,7 @@ dplyr::  slice(which.min(ORDEN))%>%
   
  
    cruce3[,"PESO_SP"][is.na(cruce3[,"PESO_SP"])]<- 0
-     fwrite(cruce3, "cruce3.txt") 
+     fwrite(cruce3, "cruce3.txt", bom=TRUE) 
   
  # cruce3<-cruce3 %>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO, PUERTO_DESEMBARQUE,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,
   #                                ESTRATO_RIM, ESTRATO_NVDP,
@@ -203,7 +208,7 @@ dplyr::  slice(which.min(ORDEN))%>%
   "PESO_MAREA_DP" , "dif" )]%>%  arrange(ID_RIM)
 
 #head (export_cruce)
- fwrite(export_cruce, "EXPORT_CRUCE.txt") 
+ fwrite(export_cruce, "EXPORT_CRUCE.txt", brom=TRUE) 
 return(export_cruce) 
     
   }
