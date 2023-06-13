@@ -150,14 +150,42 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
   dplyr::mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))  
   
   
-  no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
+  no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%
+  dplyr::select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
                                       ESTRATO_RIM
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
   
   
   openxlsx::   write.xlsx(no_cruzan,
-           file = "NO_CRUZAN.xlsx",
+           file = "NO_CRUZAN2.xlsx",
            sheetName = "NO_IDMAREA",
+           somearg = TRUE)
+  
+  
+  cruce3<-cruce2 %>%
+  group_by(COD_ID) %>%
+  top_n(n =-2, wt = ORDEN2)  %>%
+  arrange(ID_RIM)%>%group_by(COD_ID) %>%
+  top_n(n =-1, wt = dif)%>%group_by(COD_ID) %>%
+dplyr::  slice(which.min(ORDEN))%>%
+  as.data.frame()
+  
+return(cruce3)  
+   cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
+  
+  export_cruce<-cruce3[,c(
+  "ANYO"           , "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
+  "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
+  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"     ,  "ESTRATO_NVDP"      ,
+  "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
+  "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
+  "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
+    "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
+head (export_cruce)
+  
+  openxlsx::write.xlsx(export_cruce,
+           file = "cruce_31_03v2.xlsx",
+           sheetName = "cruce1",
            somearg = TRUE)
     
   }
