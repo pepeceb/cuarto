@@ -208,7 +208,7 @@ dplyr::  slice(which.min(ORDEN))%>%
   "PESO_MAREA_DP" , "dif" )]%>%  arrange(ID_RIM)
 
 #head (export_cruce)
- fwrite(export_cruce, "EXPORT_CRUCE.txt", brom=TRUE) 
+ fwrite(export_cruce, "EXPORT_CRUCE.txt", bom=TRUE) 
 return(export_cruce) 
     
   }
