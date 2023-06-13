@@ -38,10 +38,8 @@ NVDT <- NVDT %>%
     
     
     
-    NVDT<-NVDT %>%group_by(IDMAREA)%>%
-      mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
     
-      fwrite(nvdpdata, "nvdpdata.txt")
+      fwrite(NVDT, "NVDT.txt")
     
     
     
