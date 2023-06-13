@@ -74,7 +74,7 @@ muestreos_22$FECHA_MENOS5 <- as.Date(muestreos_22$FECHA-5, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS2 <- as.Date(muestreos_22$FECHA+2, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS3 <- as.Date(muestreos_22$FECHA+3, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
-  return(muestreos22)
+  return(muestreos_22)
   
  #muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
  muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
