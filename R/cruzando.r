@@ -54,6 +54,7 @@ rm(CFPO1)
 
   
 muestreos[,"P_VIVO"][is.na(muestreos[,"P_VIVO"])]<- 0
+  muestreos$FECHA_MUE<-toupper (muestreos$FECHA_MUE)
 muestreos_22<- muestreos
 muestreos_22$FECHA_MUE<-as.character (muestreos_22$FECHA_MUE)
 muestreos_22$FECHA_MUE<-str_replace_all(muestreos_22$FECHA_MUE, "ENE", "JAN")
