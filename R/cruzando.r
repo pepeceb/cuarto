@@ -131,5 +131,22 @@ cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
                         DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
                         FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
 cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros 
+  
+  
+  
+  cruce1<-cruce1%>%group_by(COD_ID)%>%
+  dplyr::mutate(
+  ORDEN4=ifelse(any(ORDEN3=="OK"),"cruza", "NO_cruza"))%>%
+  arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
+as.data.frame(head (cruce1,20))
+
+  
+  cruce2<-cruce1 %>%
+  group_by(COD_ID) %>%
+  dplyr::slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
+  
+cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
+  arrange(ID_RIM)%>%
+  dplyr::mutate(dif=abs(PESO_MAREA-PESO_MAREA_DP))  
     
   }
