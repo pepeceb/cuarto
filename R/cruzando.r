@@ -1,19 +1,16 @@
 cruzando<-function(x,y) {
   
-    
+   library(data.table) 
     
     
     NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")
-    #NVDP2019_SIRENO_IEO_v28032020$FECHA <- dmy (NVDP2019_SIRENO_IEO_v28032020$FECHA_DESEMBARQUE)
+
     nvdpdata<-data.table(NVDP)
 
     head (nvdpdata)
 
 
-   # muestreos<-read_delim("IEOUPMUEDESTOTJLCEBRIAN.TXT", 
-                                 #  delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"), 
-                                  # trim_ws = TRUE)
-    
+   
     
     
     
@@ -29,7 +26,7 @@ cruzando<-function(x,y) {
     
     NVDT <- NVDT %>%
       # Rename the columns
-      rename(
+  dplyr:: rename(
         #FECHA_DESEM = FECHA_DESEMBARQUE,
         ESTRATO_NVDP= ESTRATO_RIM,
         ESPECIE= SIRENO_SPP
