@@ -134,7 +134,7 @@ cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
   
  cruce1<-cruce1%>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
                         DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
-                        FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
+                        FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESP_MUE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
 #cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros 
   
   
