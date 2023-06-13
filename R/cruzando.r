@@ -6,8 +6,8 @@ cruzando<-function(x,y) {
     NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")  
     
 NVDT<-NVDP%>%group_by (IDMAREA,FECHA, FECHA_DESEMBARQUE,PUERTO_DESEMBARQUE,
-                  DIVICES,  LABORATORIO,METIER_IEO,LOA, ESTRATO_RIM,
-                  SIRENO_SPP, DIAS_MAREA,ANYO,CODIGO_BUQUE)%>%
+                  DIVICES,  LABORATORIO, ESTRATO_RIM,
+                  SIRENO_SPP, ANYO,CODIGO_BUQUE)%>%
  dplyr::summarise(PESO=sum(PESO))%>%as.data.table()
     
 NVDT <- NVDT %>%
