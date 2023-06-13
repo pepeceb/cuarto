@@ -173,7 +173,7 @@ dplyr::  slice(which.min(ORDEN))%>%
   as.data.frame()
   
  
-   cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
+   cruce3[,"PESO_SP"][is.na(cruce3[,"PESO_SP"])]<- 0
   
   export_cruce<-cruce3[,c(
   "ANYO"           , "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
