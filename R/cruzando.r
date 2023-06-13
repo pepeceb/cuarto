@@ -88,7 +88,7 @@ muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
 head(as.data.frame(muestreos2))
   
-     fwrite(muestreos2, "kkkkmmmmmmm2.txt") 
+     fwrite(muestreos2, "kkkk.txt") 
   
   library(tidyr)
   muestreos3<- tidyr::gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
@@ -150,10 +150,7 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
    fwrite(cruce2, "kkkk2.txt") 
   
-  openxlsx::   write.xlsx(no_cruzan,
-           file = "NO_CRUZAN2.xlsx",
-           sheetName = "NO_IDMAREA",
-           somearg = TRUE)
+
   
   
   cruce3<-cruce2 %>%
@@ -177,9 +174,6 @@ return(cruce3)
     "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
 head (export_cruce)
  fwrite(export_cruce, "kkkkk.txt") 
-  openxlsx::write.xlsx(export_cruce,
-           file = "cruce_31_03v2.xlsx",
-           sheetName = "cruce1",
-           somearg = TRUE)
+
     
   }
