@@ -161,7 +161,7 @@ library(openxlsx)
            file = "NO_CRUZAN2.xlsx",
            sheetName = "NO_IDMAREA",
            somearg = TRUE)
-  
+   fwrite(no_cruzan, "no_cruzan3.txt")
   
   cruce3<-cruce2 %>%
   group_by(COD_ID) %>%
