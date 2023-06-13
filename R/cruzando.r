@@ -77,11 +77,17 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
 
   
  #muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
- muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
-                          by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
-                                 "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
-                                 "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]%>%
+
+  
+ muestreos2<-muestreos_22%>%
+  group_by(COD_ID,ID_RIM,FECHA_MUE, FECHA,FECHA_MENOS1,FECHA_MENOS2,FECHA_MENOS3,
+                                 FECHA_MENOS4,FECHA_MENOS5,FECHA_MAS1,FECHA_MAS2,FECHA_MAS3,
+                                 COD_TIPO_MUE,  ESTRATO_RIM, METIER_DCF, PUERTO, CODSGPM,BARCO,ESP_MUE)%>%
+  dplyr::summarise(PESO_SP= =round(sum(P_VIVO,2)))%>%as.data.table()
   unique()
+  
+  
+  
 #head (as.data.frame(muestreos2))
 muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
 muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
