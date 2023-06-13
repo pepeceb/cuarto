@@ -162,7 +162,7 @@ no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, ID
   
   
   cruce2<-cruce1 %>%
-  group_by(COD_ID) %>%
+  group_by(COD_ID, ORDEN) %>%
   dplyr::slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
   
 cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
