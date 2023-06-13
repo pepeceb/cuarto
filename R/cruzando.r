@@ -56,9 +56,7 @@ rm(CFPO1)
   NVDT<-dplyr::left_join(NVDT,DTCFPO)
   library(readr)
   
-  muestreos <- read_delim("~/2023/cruce/IEOUPMUEDESTOTJLCEBRIAN.TXT", 
-                               delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"), 
-                               trim_ws = TRUE)
+
   
 muestreos[,"P_VIVO"][is.na(muestreos[,"P_VIVO"])]<- 0
 muestreos_22<- muestreos[complete.cases(muestreos[c(  "P_VIVO")]),]
@@ -86,7 +84,17 @@ muestreos_22$FECHA_MENOS5 <- as.Date(muestreos_22$FECHA-5, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS2 <- as.Date(muestreos_22$FECHA+2, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS3 <- as.Date(muestreos_22$FECHA+3, format = "%d/%m/%Y")
 muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
+  return(muestreos)
   
-  
+ muestreos_22<-muestreos_22[complete.cases(muestreos_22[c("P_VIVO")]),]
+ muestreos2<-muestreos_22[, .(PESO_SP=round(sum(P_VIVO,2))),
+                          by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
+                                 "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
+                                 "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]
+head (as.data.frame(muestreos2))
+muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
+muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
+muestreos2$RATIO<-round(muestreos2$RATIO,1)
+head(as.data.frame(muestreos2))
     
   }
