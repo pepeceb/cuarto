@@ -22,8 +22,7 @@ NVDT <- NVDT %>%
   rename(
     #FECHA_DESEM = FECHA_DESEMBARQUE,
     ESTRATO_NVDP= ESTRATO_RIM,
-    ESPECIE= SIRENO_SPP,
-    PESO= V1
+    ESPECIE= SIRENO_SPP
   )
     head (NVDT)
     
