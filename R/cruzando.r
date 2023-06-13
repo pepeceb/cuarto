@@ -91,7 +91,7 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
                           by = c("ID_RIM","COD_ID","FECHA_MUE", "FECHA","FECHA_MENOS1","FECHA_MENOS2","FECHA_MENOS3",
                                  "FECHA_MENOS4","FECHA_MENOS5","FECHA_MAS1","FECHA_MAS2","FECHA_MAS3",
                                  "COD_TIPO_MUE",  "ESTRATO_RIM", "METIER_DCF", "PUERTO", "CODSGPM","BARCO","ESP_MUE")]
-head (as.data.frame(muestreos2))
+#head (as.data.frame(muestreos2))
 muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
 muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
@@ -113,8 +113,23 @@ library(plyr)
   
   
   
+  muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
+
+NVDT$CODSGPM<-as.factor(NVDT$CODSGPM)
+
+{
+cruce1 <-  full_join(muestreos3,NVDT, by=c("FECHA", "CODSGPM")) %>%
+  arrange ( ORDEN,-RATIO) %>%
+ dplyr:: mutate(ORDEN2 = ifelse(duplicated(IDMAREA),ORDEN=="10", ORDEN),
+         ORDEN3 = ifelse(is.na(IDMAREA),"NULL","OK")) %>%distinct()%>%
+  arrange(ID_RIM, ORDEN)%>%as.data.frame()
+  }
+
+cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
   
-  
-  
+ cruce1<-cruce1%>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
+                        DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
+                        FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESPECIE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
+cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros 
     
   }
