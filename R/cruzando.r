@@ -24,13 +24,14 @@ cruzando<-function(x,y) {
     
     
     
-    NVDT <- NVDT %>%
-      # Rename the columns
-  dplyr:: rename(
-        #FECHA_DESEM = FECHA_DESEMBARQUE,
-        ESTRATO_NVDP= ESTRATO_RIM,
-        ESPECIE= SIRENO_SPP
-      )
+NVDT <- NVDT %>%
+  # Rename the columns
+  rename(
+    #FECHA_DESEM = FECHA_DESEMBARQUE,
+    ESTRATO_NVDP= ESTRATO_RIM,
+    ESPECIE= SIRENO_SPP,
+    PESO= V1
+  )
     head (NVDT)
     
     
