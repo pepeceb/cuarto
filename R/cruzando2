@@ -1,16 +1,14 @@
 cruzando<-function(x,y) {
   
    library(data.table) 
-    NVDP<-fread("NVDP2022_SIRENO.txt")
+    #NVDP<-fread("NVDP2022_SIRENO.txt")
     
-    NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")  
+NVDP$FECHA <- as.Date(NVDP$FECHA_DESEMBARQUE, format = "%d/%m/%Y")  
     
 NVDT<-NVDP%>%group_by (IDMAREA,FECHA, FECHA_DESEMBARQUE,PUERTO_DESEMBARQUE,
                   DIVICES,  LABORATORIO,METIER_IEO,LOA, ESTRATO_RIM,
                   SIRENO_SPP, DIAS_MAREA,ANYO,CODIGO_BUQUE)%>%
  dplyr::summarise(PESO=sum(PESO))%>%as.data.table()
-    
-
     
     
     
@@ -19,29 +17,22 @@ NVDT<-NVDP%>%group_by (IDMAREA,FECHA, FECHA_DESEMBARQUE,PUERTO_DESEMBARQUE,
     
 NVDT <- NVDT %>%
   # Rename the columns
-  rename(
+  dplyr::rename(
     #FECHA_DESEM = FECHA_DESEMBARQUE,
     ESTRATO_NVDP= ESTRATO_RIM,
     ESPECIE= SIRENO_SPP
   )
-    as.data.frame(head (NVDT))
-    
-    
-    
-    
-    
-    
-      fwrite(NVDT, "NVDT.txt")
+
     
   NVDT<-NVDT %>%group_by(IDMAREA)%>%
-  mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
+ dplyr:: mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
+  fwrite(NVDT, "NVDT.txt") 
+  
   library(readxl)
 CFPO <- read_excel("CFPO.xlsx")
-
-
 CFPO <- CFPO %>%
   # Rename the columns
-  rename(
+  dplyr::rename(
 
 
     CODSGPM= CODIGOBUQUE,
@@ -95,7 +86,7 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
 muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
 muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
-head(as.data.frame(muestreos2))
+#head(as.data.frame(muestreos2))
   library(tidyr)
   muestreos3<- tidyr::gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
   mutate(ORDEN=TIPO_FECHA)%>%
@@ -113,7 +104,7 @@ library(plyr)
   
   
   
-  muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
+muestreos3$CODSGPM<-as.factor(muestreos3$CODSGPM)
 
 NVDT$CODSGPM<-as.factor(NVDT$CODSGPM)
 
@@ -138,8 +129,8 @@ cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros
   dplyr::mutate(
   ORDEN4=ifelse(any(ORDEN3=="OK"),"cruza", "NO_cruza"))%>%
   arrange(ID_RIM, ORDEN, -RATIO) %>%as.data.frame()
-as.data.frame(head (cruce1,20))
-
+#as.data.frame(head (cruce1,20))
+fwrite(cruce1, "cruce1.txt")
   
   cruce2<-cruce1 %>%
   group_by(COD_ID) %>%
@@ -151,9 +142,8 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
   
   
   no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%
-  dplyr::select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
-                                      ESTRATO_RIM
-                                              )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
+  dplyr::select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,
+            COD_TIPO_MUE, PUERTO,BARCO, ESTRATO_RIM)
   
   
   openxlsx::   write.xlsx(no_cruzan,
@@ -161,7 +151,7 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
            sheetName = "NO_IDMAREA",
            somearg = TRUE)
   
-  
+  fwrite(no_cruza, "no_cruzan_nada.txt")
   cruce3<-cruce2 %>%
   group_by(COD_ID) %>%
   top_n(n =-2, wt = ORDEN2)  %>%
@@ -182,7 +172,7 @@ return(cruce3)
   "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
     "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
 head (export_cruce)
-  
+  fwrite(export_cruce, "export_cruce.csv")
   openxlsx::write.xlsx(export_cruce,
            file = "cruce_31_03v2.xlsx",
            sheetName = "cruce1",
