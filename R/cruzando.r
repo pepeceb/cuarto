@@ -23,7 +23,7 @@ NVDT <- NVDT %>%
     
   NVDT<-NVDT %>%group_by(IDMAREA)%>%
   dplyr:: mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
-        fwrite(NVDT, "NVDTkk.txt")
+        fwrite(NVDT, "NVDT.txt")
   
   
   
@@ -98,7 +98,7 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
 #head(as.data.frame(muestreos2))
   
-     fwrite(muestreos2, "kkkk.txt") 
+     fwrite(muestreos2, "muestreos2.txt") 
   
   library(tidyr)
   muestreos3<- tidyr::gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
@@ -159,7 +159,7 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
   dplyr::select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
                                       ESTRATO_RIM
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)
-   fwrite(cruce2, "kkkk2.txt") 
+   fwrite(cruce2, "cruce2.txt") 
   
 
   
@@ -174,17 +174,20 @@ dplyr::  slice(which.min(ORDEN))%>%
   
  
    cruce3[,"PESO_SP"][is.na(cruce3[,"PESO_SP"])]<- 0
+     fwrite(cruce2, "cruce3.txt") 
+  
   
   export_cruce<-cruce3[,c(
-  "ANYO"           , "ID_RIM"             ,"COD_ID"        ,  "IDMAREA"           ,
+   "ID_RIM"       ,"COD_ID"              ,  "IDMAREA"      ,
   "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
-  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"     ,  "ESTRATO_NVDP"      ,
+  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"    ,  "ESTRATO_NVDP"      ,
   "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
   "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
   "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
-    "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
+  "PESO_MAREA_DP" , "dif" )]%>%
+  arrange(ID_RIM)
 head (export_cruce)
- fwrite(export_cruce, "kkkkk.txt") 
+ fwrite(export_cruce, "EXPORT_CRUCE.txt") 
 return(export_cruce) 
     
   }
