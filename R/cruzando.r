@@ -146,6 +146,16 @@ cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
 as.data.frame(head (cruce1,20))
 
      fwrite(cruce1, "kkkk1.txt") 
+  
+no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, IDMAREA,COD_ID,CODSGPM,COD_TIPO_MUE, PUERTO,BARCO,
+                                      ESTRATO_RIM
+                                              )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)  
+      fwrite(no_cruzan, "NO_CRUZAN.txt") 
+  
+  
+  
+  
+  
   cruce2<-cruce1 %>%
   group_by(COD_ID) %>%
   dplyr::slice(which.max(RATIO))%>%arrange(ID_RIM) %>%as.data.frame()
@@ -174,19 +184,25 @@ dplyr::  slice(which.min(ORDEN))%>%
   
  
    cruce3[,"PESO_SP"][is.na(cruce3[,"PESO_SP"])]<- 0
-     fwrite(cruce2, "cruce3.txt") 
+     fwrite(cruce3, "cruce3.txt") 
+  
+ # cruce3<-cruce3 %>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO, PUERTO_DESEMBARQUE,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,
+  #                                ESTRATO_RIM, ESTRATO_NVDP,
+   #                               DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_DESEMBARQUE,FECHA_MUESTREO,
+    #                              FECHA ,TIPO_FECHA,ORDEN , ESP_MUE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
+  
   
   
   export_cruce<-cruce3[,c(
-   "ID_RIM"       ,"COD_ID"              ,  "IDMAREA"      ,
+  "ANYO"          , "ID_RIM"              ,"COD_ID"        ,  "IDMAREA"      ,
   "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
   "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"    ,  "ESTRATO_NVDP"      ,
   "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
   "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
-  "ESPECIE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
-  "PESO_MAREA_DP" , "dif" )]%>%
-  arrange(ID_RIM)
-head (export_cruce)
+  "ESP_MUE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
+  "PESO_MAREA_DP" , "dif" )]%>%  arrange(ID_RIM)
+
+#head (export_cruce)
  fwrite(export_cruce, "EXPORT_CRUCE.txt") 
 return(export_cruce) 
     
