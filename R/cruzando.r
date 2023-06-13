@@ -172,7 +172,7 @@ cruce2<-subset(cruce2,!ORDEN2==FALSE & ORDEN3=="OK")%>%
 dplyr::  slice(which.min(ORDEN))%>%
   as.data.frame()
   
-return(cruce3)  
+ 
    cruce3[,"PESO"][is.na(cruce3[,"PESO"])]<- 0
   
   export_cruce<-cruce3[,c(
@@ -185,6 +185,6 @@ return(cruce3)
     "PESO_MAREA_DP" , "dif" )]%>%arrange(ID_RIM)
 head (export_cruce)
  fwrite(export_cruce, "kkkkk.txt") 
-
+return(export_cruce) 
     
   }
