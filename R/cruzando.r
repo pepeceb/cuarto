@@ -54,7 +54,7 @@ CFPO1<-unique( CFPO1)
 DTCFPO<- data.table(CFPO1)
 rm(CFPO1)
   NVDT<-dplyr::left_join(NVDT,DTCFPO)
-  
+  library(readr)
   
   muestreos <- read_delim("~/2023/cruce/IEOUPMUEDESTOTJLCEBRIAN.TXT", 
                                delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"), 
