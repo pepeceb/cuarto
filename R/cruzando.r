@@ -138,7 +138,7 @@ cruce1 <-  full_join(muestreos3,NVDT, by=c("FECHA", "CODSGPM")) %>%
 
 cruce1[,"PESO_SP"][is.na(cruce1[,"PESO_SP"])]<- 0
   
- cruce1<-cruce1%>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,ESTRATO_RIM, ESTRATO_NVDP,
+ cruce1<-cruce1%>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO,BARCO, NOMBRE_BUQUE,CODSGPM,ESTRATO_RIM, ESTRATO_NVDP,
                         DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_MUESTREO=FECHA_MUE,FECHA ,TIPO_FECHA,ORDEN , ORDEN2,ORDEN3,
                         FECHA_DESEMBARQUE, PUERTO_DESEMBARQUE,ESP_MUE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
 #cruce1<-cruce1[complete.cases(cruce1[c("COD_ID")]),]#Elimina los registros 
@@ -192,7 +192,7 @@ dplyr::  slice(which.min(ORDEN))%>%
    cruce3[,"PESO_SP"][is.na(cruce3[,"PESO_SP"])]<- 0
      fwrite(cruce3, "cruce3.txt", bom=TRUE) 
   
- # cruce3<-cruce3 %>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO, PUERTO_DESEMBARQUE,BARCO, NOMBRE_BUQUE,CODSGPM,LOA,
+ # cruce3<-cruce3 %>%dplyr::select(ANYO,ID_RIM,IDMAREA,COD_ID,PUERTO, PUERTO_DESEMBARQUE,BARCO, NOMBRE_BUQUE,CODSGPM,
   #                                ESTRATO_RIM, ESTRATO_NVDP,
    #                               DIVICES,LABORATORIO, COD_TIPO_MUE,FECHA_DESEMBARQUE,FECHA_MUESTREO,
     #                              FECHA ,TIPO_FECHA,ORDEN , ESP_MUE,PESO_SP,RATIO, PESO_MAREA,PESO_MAREA_DP )%>%distinct()
@@ -202,7 +202,7 @@ dplyr::  slice(which.min(ORDEN))%>%
   export_cruce<-cruce3[,c(
   "ANYO"          , "ID_RIM"              ,"COD_ID"        ,  "IDMAREA"      ,
   "PUERTO"        , "PUERTO_DESEMBARQUE" ,"BARCO"          ,  "NOMBRE_BUQUE"      ,
-  "CODSGPM"       , "LOA"                ,"ESTRATO_RIM"    ,  "ESTRATO_NVDP"      ,
+  "CODSGPM"            ,"ESTRATO_RIM"    ,  "ESTRATO_NVDP"      ,
   "DIVICES"       , "LABORATORIO"        , "COD_TIPO_MUE"  ,  "FECHA_DESEMBARQUE" ,
   "FECHA_MUESTREO", "FECHA"              , "TIPO_FECHA"    ,  "ORDEN"             ,
   "ESP_MUE"       , "PESO_SP"            , "RATIO"         ,  "PESO_MAREA"        ,
