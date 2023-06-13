@@ -24,7 +24,7 @@ NVDT <- NVDT %>%
     ESTRATO_NVDP= ESTRATO_RIM,
     ESPECIE= SIRENO_SPP
   )
-    head (NVDT)
+    as.data.frame(head (NVDT))
     
     
     
@@ -96,5 +96,25 @@ muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
 muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
 head(as.data.frame(muestreos2))
+  library(tidyr)
+  muestreos3<- tidyr::gather (muestreos2,"TIPO_FECHA", "FECHA", 4:12)%>%
+  mutate(ORDEN=TIPO_FECHA)%>%
+  select(ID_RIM,COD_ID,  CODSGPM, BARCO ,FECHA_MUE,
+         FECHA, TIPO_FECHA, ORDEN, ESTRATO_RIM, METIER_DCF, PUERTO,
+         COD_TIPO_MUE,ESPECIE=ESP_MUE, PESO_MAREA, PESO_SP, RATIO )
+muestreos3<- arrange (muestreos3,FECHA)
+muestreos3 <- distinct (muestreos3)
+  
+library(plyr)  
+  muestreos3$ORDEN<-plyr::revalue(muestreos3$ORDEN, c("FECHA"="1", "FECHA_MENOS1"="2","FECHA_MAS1"="3",
+                                                    "FECHA_MENOS2"="4" ,  "FECHA_MAS2"="6",
+                                                    "FECHA_MENOS3" = "5","FECHA_MENOS4" = "7",
+                                                    "FECHA_MENOS5"="8","FECHA_MAS3"="9"))
+  
+  
+  
+  
+  
+  
     
   }
