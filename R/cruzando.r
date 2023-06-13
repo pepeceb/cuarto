@@ -89,10 +89,14 @@ muestreos_22$FECHA_MAS4 <- as.Date(muestreos_22$FECHA+4, format = "%d/%m/%Y")
   
   
 #head (as.data.frame(muestreos2))
-muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
-muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
+#muestreos2[,c("PESO_MAREA"):=list(sum(PESO_SP)),by=COD_ID]
+  muestreos2<-muestreos2%>%group_by(COD_ID)%>%
+  dplyr:: mutate(PESO_MAREA= sum(PESO_SP))
+#muestreos2[,c("RATIO"):=list((PESO_SP/PESO_MAREA)*100),by=COD_ID]
+ muestreos2<-muestreos2 %>% group_by(COD_ID)%>%
+  dplyr:: mutate(RATIO= (PESO_SP/PESO_MAREA)*100)
 muestreos2$RATIO<-round(muestreos2$RATIO,1)
-head(as.data.frame(muestreos2))
+#head(as.data.frame(muestreos2))
   
      fwrite(muestreos2, "kkkk.txt") 
   
