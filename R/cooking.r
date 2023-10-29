@@ -53,5 +53,9 @@ label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
     guides(colour = guide_legend(override.aes = list(size=5,linetype=4)))+
      scale_x_sqrt()
   
-ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"), width = 35, height =25, units = "cm")
+ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"),
+       width = 35, height =25, units = "cm")
+
+temp_plot
+     
 }
