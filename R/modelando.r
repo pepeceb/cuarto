@@ -44,7 +44,8 @@ modelando <- function(x, y) {
   
   
   fwrite(OUTLIERS,"OUTLIERS.txt")
-  
+  library(openxlsx)
+  write.xlsx(OUTLIERS, 'OUTLIERS.xlsx')
   
   rm(sp2)
   
@@ -58,5 +59,6 @@ modelando <- function(x, y) {
 sp3<-sp3%>%#  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>%
     as.data.table()
 
-  return(sp3
+  return(sp3)
+  print(sp3)
 }
