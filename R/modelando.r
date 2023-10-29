@@ -57,4 +57,6 @@ modelando <- function(x, y) {
                   "keep", "delete"             ))
 sp3<-sp3%>%#  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>%
     as.data.table()
+
+  return(sp3
 }
