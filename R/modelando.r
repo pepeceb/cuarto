@@ -46,7 +46,7 @@ modelando <- function(x, y) {
   fwrite(OUTLIERS,"OUTLIERS.txt")
   
   
-  
+  rm(sp2)
   
   library(ggbeeswarm)
   sp3$PUERTO2<-ifelse(sp3$COD_TIPO_MUE %in% c(4,6), "A BORDO", sp3$PUERTO)
