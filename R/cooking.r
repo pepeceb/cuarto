@@ -23,16 +23,16 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     geom_quasirandom(aes(colour = PUERTO2, size=PESO_SP,x=TALLA_MEDIA_MAREA, y=cooksd  ),
                     method = "smiley")  +
     
-    geom_hline(data = AC, aes(yintercept = 4*AC$MN),size=1.5, colour="red")  +
+    geom_hline(data = AC, aes(yintercept = 8*AC$MN),size=1.5, colour="red")  +
     guides(colour = guide_legend(override.aes = list(size = 3)))     +
     guides(scale= "none",size=FALSE,fill=guide_legend(override.aes=list(size=3))) +
-    scale_size(range=c(2,5))  +
+    scale_size(range=c(4,8))  +
     facet_wrap(ESPECIE~ESTRATO_RIM, scales="free")   +
  
-    labs(title=i,subtitle="Influential Obs by Cooks distance (cooksd>20*mean)",
+    labs(title=AC$ESPECIE,subtitle="Influential Obs by Cooks distance (cooksd>8*mean)",
          caption = "AÑO= 2023") +
     
-    #theme_grey(base_size=6)    +  #theme(legend.position = "none") +
+    theme_minimal()    +  #theme(legend.position = "none") +
     theme(strip.text.x = element_text(size=12, angle=0,face="bold", colour="white"),
           strip.text.y = element_text(size=12, face="bold",colour="white"),
           strip.background = element_rect(colour="white", fill=c( "steelblue")))  +
