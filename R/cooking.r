@@ -53,7 +53,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-          geom_label_repel(show.legend=FALSE,data=subset(AC, ESPECIE == i & EJEM_MED_MAREA>0 ),
+          geom_label_repel(show.legend=FALSE,data=subset(AC,  EJEM_MED_MAREA>5 ),
                      aes(fontface="bold",  TALLA_MEDIA_MAREA,cooksd, 
                          label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                                                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
