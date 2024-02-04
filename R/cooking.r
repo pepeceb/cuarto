@@ -28,6 +28,17 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     guides(scale= "none",size=FALSE,fill=guide_legend(override.aes=list(size=3))) +
     scale_size(range=c(2,5))  +
     facet_wrap(ESPECIE~ESTRATO_RIM, scales="free")   +
+ 
+    labs(title=i,subtitle="Influential Obs by Cooks distance (cooksd>20*mean)",
+         caption = "AÑO= 2023") +
+    
+    #theme_grey(base_size=6)    +  #theme(legend.position = "none") +
+    theme(strip.text.x = element_text(size=12, angle=0,face="bold", colour="white"),
+          strip.text.y = element_text(size=12, face="bold",colour="white"),
+          strip.background = element_rect(colour="white", fill=c( "steelblue")))  +
+
+
+     
     theme(plot.title = element_text(hjust=0.5,lineheight=7, face="bold", size=16),
           plot.subtitle = element_text(hjust=0.5,lineheight=10, face="bold.italic", 
                                        size = 14)) +
@@ -42,18 +53,15 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-    geom_label_repel(segment.curvature = -0.1,force             = 0.5,
-    nudge_x           = 0.15,
-    segment.ncp = 3,
-    segment.angle = 20,show.legend=FALSE,max.overlaps=Inf,data=subset(AC,cooksd>4*MN),aes(fontface="bold", 
-                     TALLA_MEDIA_MAREA,cooksd, 
-label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
-                          FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
-                              vjust=0, hjust=0.5))     +
+        geom_label_repel(show.legend=FALSE,data=AC,  EJEM_MED_MAREA>3 ),
+                     aes(fontface="bold",  TALLA_MEDIA_MAREA,cooksd, 
+                         label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
+                                                          FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
+                         vjust=0, hjust=0.5)) +    +
     guides(colour = guide_legend(override.aes = list(size=5,linetype=4)))+
-     scale_x_sqrt()
+    # scale_x_sqrt()
   
-ggsave(temp_plot, file=paste0("2021_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"),
+ggsave(temp_plot, file=paste0("2023_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"),
        width = 35, height =25, units = "cm")
 
 temp_plot
