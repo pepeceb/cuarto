@@ -57,7 +57,7 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
                      aes(fontface="bold",  TALLA_MEDIA_MAREA,cooksd, 
                          label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
                                                           FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
-                         vjust=0, hjust=0.5)) +
+                         vjust=0, hjust=0.5)) 
     # scale_x_sqrt()
   
 ggsave(temp_plot, file=paste0("2023_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"),
