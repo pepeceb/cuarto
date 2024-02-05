@@ -23,13 +23,13 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     geom_quasirandom(aes(colour = PUERTO2, size=PESO_SP,x=TALLA_MEDIA_MAREA, y=cooksd  ),
                     method = "smiley")  +
     
-    geom_hline(data = AC, aes(yintercept = 8*AC$MN),size=1.5, colour="red")  +
+    geom_hline(data = AC, aes(yintercept = 4*AC$MN),size=1.5, colour="red")  +
     guides(colour = guide_legend(override.aes = list(size = 3)))     +
     guides(scale= "none",size=FALSE,fill=guide_legend(override.aes=list(size=3))) +
-    scale_size(range=c(4,8))  +
+    scale_size(range=c(4,10))  +
     facet_wrap(ESPECIE~ESTRATO_RIM, scales="free")   +
  
-    labs(title=AC$ESPECIE,subtitle="Influential Obs by Cooks distance (cooksd>8*mean)",
+    labs(title=AC$ESPECIE,subtitle="Influential Obs by Cooks distance (cooksd>4*mean)",
          caption = "AÑO= 2023") +
     
     theme_minimal()    +  #theme(legend.position = "none") +
@@ -53,11 +53,10 @@ cocinando <- function(AC, cooksd, PESO_SP, PUERTO2, ESPECIE, ESTRATO_RIM, sp3, M
     
     
     
-          geom_label_repel(show.legend=FALSE,data=subset(AC,  EJEM_MED_MAREA>5 ),
-                     aes(fontface="bold",  TALLA_MEDIA_MAREA,cooksd, 
-                         label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
-                                                          FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"")  ,
-                         vjust=0, hjust=0.5)) 
+geom_label_repel(show.legend=FALSE,data=subset(AC,  EJEM_MED_MAREA>5 ),
+aes(fontface="bold",  TALLA_MEDIA_MAREA,cooksd, 
+label = ifelse(cooksd>4*MN,paste(round(TALLA_MEDIA_MAREA,2), "cm", "\n",
+FECHA, " ", "\n",EJEM_MED_MAREA, "Ejemplares"),"") , vjust=0, hjust=0.5)) 
     # scale_x_sqrt()
   
 ggsave(temp_plot, file=paste0("2023_plot_TALLAS_MEDIAS ",unique(AC$ESPECIE)," ", ".png"),
