@@ -1,12 +1,10 @@
 
 library(stringi)
 muesting <- function(x) {
+   
     muestreos_tallas$PUERTO <- toupper(stri_trans_general(
       muestreos_tallas$PUERTO,    "Latin-ASCII"))
-   
-    #muestreos_tallas <- data.table(muestreos_tallas)
-    #muestreos_tallas <- na.omit(muestreos_tallas, cols = c("EJEM_MEDIDOS", 
-    #                                                       "SOP"))
+                                                      
     muestreos_tallas$FECHA_MUE <- as.character(muestreos_tallas$FECHA_MUE)
     muestreos_tallas$FECHA_MUE <- str_replace_all(muestreos_tallas$FECHA_MUE, 
                                                        "ENE", "JAN")
