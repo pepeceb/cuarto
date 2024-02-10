@@ -1,4 +1,4 @@
-densing <- function(tallax, ESTRATO_RIM, COD_ID, COD_TIPO_MUE, PUERTO, ESP_MUE, ESP_CAT, TALLA, EJEM_MEDIDOS, colp) {
+densing <- function(x) {
  
   colp <- c("A CORUNA" = "steelblue", "SANTA EUGENIA DE RIBEIRA" = "blue","RIBEIRA" = "blue", "CILLERO"="darkgreen",
             "VIGO" = "orange", "AVILES-GIJON" = "darkblue","AVILES"="red", "GIJON"="#00BFC4",
