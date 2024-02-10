@@ -1,19 +1,3 @@
-
-library(stringr)
-library(lubridate)
-library(dplyr)
-library(data.table)
-library(janitor)
-library(stringi)
-library(tidyr)
-
-
-tallax<-subset(muestreos_tallas, ESTRATO_RIM== "VOLANTA_CN" & ESP_CAT=="Merluccius merluccius")
-
-head (tallax)
-
-
-
 densing <- function(tallax, ESTRATO_RIM, COD_ID, COD_TIPO_MUE, PUERTO, ESP_MUE, ESP_CAT, TALLA, EJEM_MEDIDOS, colp) {
  
   colp <- c("A CORUNA" = "steelblue", "SANTA EUGENIA DE RIBEIRA" = "blue","RIBEIRA" = "blue", "CILLERO"="darkgreen",
@@ -54,4 +38,3 @@ densing <- function(tallax, ESTRATO_RIM, COD_ID, COD_TIPO_MUE, PUERTO, ESP_MUE, 
     theme_bw()+
     ggtitle(espania$ESTRATO_RIM)
 }
-densing(tallax)
