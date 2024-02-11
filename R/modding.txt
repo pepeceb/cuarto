@@ -1,4 +1,4 @@
-modelando <- function(x, y) {
+modding <- function(x, y) {
 
   
 
