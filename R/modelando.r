@@ -4,20 +4,20 @@
 modelando <- function(x, y) {
 
   
-#  TALLAS<-arrange_sample(muestreos_tallas)
+
   mod <- lm(TALLA_MEDIA_MAREA~ESTRATO_RIM*ESPECIE, data=TALLAS)
  
   cooksd <- cooks.distance(mod)
   
   
   
-  cooksd2<-as.data.frame(cooksd)   #aÃ±adimos numero de observacion para cruzarlas
+  cooksd2<-as.data.frame(cooksd)   #anadimos numero de observacion para cruzarlas
   
   
   cooksd2$ObsNumber <- 1:length(cooksd)
   TALLAS$ObsNumber <- 1:length(cooksd)
   sp2<-dplyr::full_join(TALLAS, cooksd2)%>%distinct()%>%arrange(ESTRATO_RIM, PUERTO, COD_ID)%>%
-    arrange((ObsNumber))%>%as.data.frame()
+    arrange(ObsNumber)%>%as.data.frame()
   
   sp2<-sp2[complete.cases(sp2[c("cooksd")]),]
   
