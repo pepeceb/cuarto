@@ -36,8 +36,14 @@ ggplot(espania, aes(TALLA, fill=PUERTO)) +
   facet_wrap(.~COD_ID, scales="fixed")   +
   scale_fill_manual(values=colp)  +
   theme_bw()+
-  labs(caption = espania$ESP_CAT)+
+  labs(subtitle = espania$ESP_CAT)+
   scale_y_sqrt()+
+    theme(strip.text.x = element_text(size=10, angle=0,face="bold", colour="white"),
+          strip.text.y = element_text(size=10, face="bold",colour="white"),
+          strip.background = element_rect(colour="white", fill=c( "steelblue")))  +
+    theme(plot.title = element_text(hjust=0.5,lineheight=7, face="bold", size=16),
+          plot.subtitle = element_text(hjust=0.5,lineheight=10, face="bold.italic", 
+                                       size = 14)) +
   ggtitle(espania$ESTRATO_RIM)
 
  
