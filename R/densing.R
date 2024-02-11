@@ -1,4 +1,12 @@
 densing <- function(x) {
+library(stringr)
+library(lubridate)
+library(dplyr)
+library(data.table)
+library(janitor)
+library(stringi)
+library(tidyr) 
+
  
   colp <- c("A CORUNA" = "steelblue", "SANTA EUGENIA DE RIBEIRA" = "blue","RIBEIRA" = "blue", "CILLERO"="darkgreen",
             "VIGO" = "orange", "AVILES-GIJON" = "darkblue","AVILES"="red", "GIJON"="#00BFC4",
