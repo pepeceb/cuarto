@@ -30,11 +30,15 @@ densing <- function(x) {
   
   
   
-  
-  ggplot(espania)  + 
-    geom_density(aes(x = TALLA,fill=PUERTO))+
-    facet_wrap(~COD_ID, scales="fixed")+
-    scale_fill_manual(values=colp)+
-    theme_bw()+
-    ggtitle(espania$ESTRATO_RIM)
+ggplot(espania, aes(TALLA, fill=PUERTO)) + 
+ # geom_histogram(binwidth = 2.5)+
+  geom_density(aes(y=2.5 * ..count..))  +
+  facet_wrap(.~COD_ID, scales="fixed")   +
+  scale_fill_manual(values=colp)  +
+  theme_bw()+
+  labs(caption = espania$ESP_CAT)+
+  scale_y_sqrt()+
+  ggtitle(espania$ESTRATO_RIM)
+
+ 
 }
