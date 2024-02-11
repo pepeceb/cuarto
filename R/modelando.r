@@ -16,14 +16,14 @@ modelando <- function(x, y) {
   
   cooksd2$ObsNumber <- 1:length(cooksd)
   TALLAS$ObsNumber <- 1:length(cooksd)
-  sp2<-full_join(TALLAS, cooksd2)%>%distinct()%>%arrange(ESTRATO_RIM, PUERTO, COD_ID)%>%
+  sp2<-dplyr::full_join(TALLAS, cooksd2)%>%distinct()%>%arrange(ESTRATO_RIM, PUERTO, COD_ID)%>%
     arrange((ObsNumber))%>%as.data.frame()
   
   sp2<-sp2[complete.cases(sp2[c("cooksd")]),]
   
   dMean <- sp2 %>%
     group_by(ESPECIE, ESTRATO_RIM) %>%
-    dplyr::summarise(MN = mean(cooksd))%>%arrange(-MN)
+    dplyr::summarise(MN = mean(cooksd))%>%arrange(-MN)%>%as.data.frame()
   
   dMean<-dMean[complete.cases(dMean[c("MN")]),]
  
@@ -62,5 +62,5 @@ sp3<-sp3%>%#  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>%
 
   return(sp3)
   print(sp3)
-  head (sp3)
+
 }
