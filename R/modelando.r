@@ -57,7 +57,7 @@ modelando <- function(x, y) {
   table(sp3$CALADERO_DCF)
   table(sp3$ESTRATO_RIM)
   sp3<-sp3%>%group_by(ESTRATO_RIM, ESPECIE)%>%mutate(
-    FILTRO=ifelse(any(cooksd>4*MN),
+    FILTRO=ifelse(any(cooksd>8*MN),
                   "OUT", "NO OUT"  ))
 sp3<-sp3%>%#  dplyr::select(1:6,10,14,26,25,29:36)%>%unique() %>%
     as.data.table()
