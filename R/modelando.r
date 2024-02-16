@@ -16,6 +16,8 @@ modelando <- function(x, y) {
   
   cooksd2$ObsNumber <- 1:length(cooksd)
   TALLAS$ObsNumber <- 1:length(cooksd)
+ 
+ 
   sp2<-dplyr::full_join(TALLAS, cooksd2)%>%distinct()%>%arrange(ESTRATO_RIM, PUERTO, COD_ID)%>%
     arrange(ObsNumber)%>%as.data.frame()
   
@@ -40,7 +42,7 @@ modelando <- function(x, y) {
       t_min= min(TALLA_MEDIA_MAREA))%>%as.data.frame()
   
   
-  OUTLIERS<-subset(sp3, cooksd>4*MN & EJEM_MED_MAREA>3)%>%
+  OUTLIERS<-subset(sp3, cooksd>8*MN & EJEM_MED_MAREA>3)%>%
     select(-c( MAX, MN)); as.data.frame(OUTLIERS)
   
   
