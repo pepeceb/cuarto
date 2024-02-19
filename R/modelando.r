@@ -1,4 +1,4 @@
-
+library(dplyr)
 
 
 modelando <- function(x, y) {
@@ -43,7 +43,7 @@ modelando <- function(x, y) {
   
   
   OUTLIERS<-subset(sp3, cooksd>8*MN & EJEM_MED_MAREA>3)%>%
-    select(-c( MAX, MN)); as.data.frame(OUTLIERS)
+    dplyr::select(-c( MAX, MN)); as.data.frame(OUTLIERS)
   
   
   fwrite(OUTLIERS,"OUTLIERS.txt")
