@@ -24,7 +24,7 @@ NVDT <- NVDT %>%
   NVDT<-NVDT %>%group_by(IDMAREA)%>%
   dplyr:: mutate(PESO_MAREA_DP=sum(PESO))%>%as.data.frame()
 
-  
+
   
   
   library(readxl)
@@ -158,7 +158,8 @@ no_cruzan<-subset(cruce1, ORDEN4=="NO_cruza")%>%select(FECHA_MUESTREO,ID_RIM, ID
                                               )%>%distinct()%>%arrange( ESTRATO_RIM, BARCO)  
       fwrite(no_cruzan, "NO_CRUZAN.txt", bom=TRUE) 
   
-  
+  library(openxlsx)
+  write.xlsx(no_cruzan, no_cruzan.xlsx')
   
   
   
@@ -209,6 +210,10 @@ dplyr::  slice(which.min(ORDEN))%>%
   "PESO_MAREA_DP" , "dif" )]%>%  arrange(ID_RIM)
 
 #head (export_cruce)
+
+  library(openxlsx)
+  write.xlsx(export_cruce, export_cruce.xlsx')
+  
  fwrite(export_cruce, "EXPORT_CRUCE.txt", bom=TRUE) 
 return(export_cruce) 
     
