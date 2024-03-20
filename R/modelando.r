@@ -1,8 +1,22 @@
+<<<<<<< Updated upstream:R/modelando.r
 
 
 
 modelando <- function(x, y) {
 
+=======
+model <- function(x, y) {
+
+  
+ # TALLAS<-arrange_sample(muestreos_tallas)
+
+
+
+
+
+mod <- lm(TALLA_MEDIA_MAREA~ESPECIE, data=TALLAS)
+  summary(mod)
+>>>>>>> Stashed changes:R/model.r
   
 
   mod <- lm(TALLA_MEDIA_MAREA~ESTRATO_RIM*ESPECIE, data=TALLAS)
