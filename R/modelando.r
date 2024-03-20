@@ -48,7 +48,7 @@ modelando <- function(x, y) {
   
   fwrite(OUTLIERS,"OUTLIERS.txt")
   library(openxlsx)
-  write.xlsx(OUTLIERS, 'OUTLIERS.xlsx')
+ # write.xlsx(OUTLIERS, 'OUTLIERS.xlsx')
   
   rm(sp2)
   
